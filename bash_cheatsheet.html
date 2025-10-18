@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bash Cheatsheet 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ecf0f1;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        .intro {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 2px solid #3498db;
+        }
+
+        .intro h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .intro-box h3 {
+            color: #2ecc71;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .intro-box p {
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .where-use {
+            background: rgba(52,152,219,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            margin-top: 20px;
+        }
+
+        .where-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .where-item {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            color: #ecf0f1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card.iniciante {
+            border-color: #2ecc71;
+            background: linear-gradient(135deg, rgba(46,204,113,0.1) 0%, rgba(46,204,113,0.05) 100%);
+        }
+
+        .card.intermediario {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, rgba(243,156,18,0.1) 0%, rgba(243,156,18,0.05) 100%);
+        }
+
+        .card.avancado {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, rgba(231,76,60,0.1) 0%, rgba(231,76,60,0.05) 100%);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .badge.iniciante { background: #2ecc71; }
+        .badge.intermediario { background: #f39c12; }
+        .badge.avancado { background: #e74c3c; }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            color: #3498db;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .command {
+            background: rgba(0,0,0,0.4);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 6px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-left: 3px solid #3498db;
+            line-height: 1.5;
+        }
+
+        .command code {
+            color: #00ff00;
+        }
+
+        .command .comment {
+            color: #95a5a6;
+            margin-left: 15px;
+        }
+
+        .use-case {
+            background: rgba(52,152,219,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #3498db;
+            font-size: 14px;
+        }
+
+        .use-case strong {
+            color: #3498db;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .shortcut-item {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .shortcut-item kbd {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2ecc71;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tip {
+            background: rgba(241,196,15,0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Estilos do Footer Profissional */
+        .professional-footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .cta-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        .cta-container h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .cta-container p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-brand h3 {
+                font-size: 24px;
+            }
+            
+            .professional-footer {
+                padding: 40px 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐧 Bash Cheatsheet 2025</h1>
+            <p>Do Iniciante ao Avançado - Domine o Terminal</p>
+        </div>
+
+        <!-- Seção O que é Bash -->
+        <div class="intro">
+            <h2>🤔 O que é Bash?</h2>
+            
+            <div class="intro-grid">
+                <div class="intro-box">
+                    <h3>📖 Definição</h3>
+                    <p>
+                        <strong>Bash</strong> (Bourne Again Shell) é um interpretador de comandos Unix/Linux. 
+                        É a interface entre você e o sistema operacional, permitindo controlar o computador através de texto.
+                    </p>
+                </div>
+                
+                <div class="intro-box">
+                    <h3>💪 Por que aprender?</h3>
+                    <p>
+                        • 90% dos servidores web rodam Linux<br>
+                        • Automatize tarefas repetitivas<br>
+                        • DevOps exige domínio de terminal<br>
+                        • Salários 30%+ maiores
+                    </p>
+                </div>
+                
+                <div class="intro-box">
+                    <h3>🚀 O que você pode fazer?</h3>
+                    <p>
+                        • Gerenciar arquivos e servidores<br>
+                        • Automatizar deploys e backups<br>
+                        • Processar logs e dados<br>
+                        • Criar pipelines CI/CD
+                    </p>
+                </div>
+            </div>
+
+            <div class="where-use">
+                <strong style="color: #3498db; font-size: 18px;">💡 Onde você vai usar:</strong>
+                <div class="where-grid">
+                    <div class="where-item">
+                        ☁️ <strong>Cloud</strong><br>
+                        <span style="opacity: 0.8; font-size: 14px;">AWS, Azure, GCP</span>
+                    </div>
+                    <div class="where-item">
+                        🐳 <strong>Containers</strong><br>
+                        <span style="opacity: 0.8; font-size: 14px;">Docker, Kubernetes</span>
+                    </div>
+                    <div class="where-item">
+                        🔧 <strong>DevOps</strong><br>
+                        <span style="opacity: 0.8; font-size: 14px;">CI/CD, Automação</span>
+                    </div>
+                    <div class="where-item">
+                        🖥️ <strong>Servidores</strong><br>
+                        <span style="opacity: 0.8; font-size: 14px;">Linux, Unix, macOS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="comandos" class="section-title">📚 Comandos por Nível</h2>
+
+        <div class="grid">
+            <!-- Card Iniciante 1 -->
+            <div id="iniciante" class="card iniciante">
+                <div class="card-header">
+                    <span class="badge iniciante"></span>
+                    <div class="card-title">🟢 Navegação & Sistema</div>
+                </div>
+                
+                <h3>Onde estou?</h3>
+                <div class="command">
+                    <code>pwd</code> <span class="comment"># Print Working Directory</span>
+                </div>
+                <div class="command">
+                    <code>whoami</code> <span class="comment"># Mostra usuário atual</span>
+                </div>
+                <div class="command">
+                    <code>hostname</code> <span class="comment"># Nome do servidor</span>
+                </div>
+                <div class="command">
+                    <code>uname -a</code> <span class="comment"># Info do sistema</span>
+                </div>
+
+                <h3>Listando arquivos</h3>
+                <div class="command">
+                    <code>ls</code> <span class="comment"># Lista arquivos</span>
+                </div>
+                <div class="command">
+                    <code>ls -l</code> <span class="comment"># Lista detalhada</span>
+                </div>
+                <div class="command">
+                    <code>ls -la</code> <span class="comment"># Inclui ocultos</span>
+                </div>
+                <div class="command">
+                    <code>ls -lh</code> <span class="comment"># Tamanhos legíveis</span>
+                </div>
+                <div class="command">
+                    <code>ls -ltr</code> <span class="comment"># Ordena por data</span>
+                </div>
+                <div class="command">
+                    <code>ls -R</code> <span class="comment"># Lista recursivo</span>
+                </div>
+
+                <h3>Navegando</h3>
+                <div class="command">
+                    <code>cd pasta/</code> <span class="comment"># Entra na pasta</span>
+                </div>
+                <div class="command">
+                    <code>cd ..</code> <span class="comment"># Volta 1 nível</span>
+                </div>
+                <div class="command">
+                    <code>cd ~</code> <span class="comment"># Vai para home</span>
+                </div>
+                <div class="command">
+                    <code>cd -</code> <span class="comment"># Volta pasta anterior</span>
+                </div>
+                <div class="command">
+                    <code>cd /</code> <span class="comment"># Vai para raiz</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Começando, setup inicial, navegação básica
+                </div>
+            </div>
+
+            <!-- Card Iniciante 2 -->
+            <div class="card iniciante">
+                <div class="card-header">
+                    <span class="badge iniciante"></span>
+                    <div class="card-title">🟢 Arquivos & Diretórios</div>
+                </div>
+                
+                <h3>Criar</h3>
+                <div class="command">
+                    <code>touch arquivo.txt</code> <span class="comment"># Cria arquivo vazio</span>
+                </div>
+                <div class="command">
+                    <code>mkdir pasta</code> <span class="comment"># Cria diretório</span>
+                </div>
+                <div class="command">
+                    <code>mkdir -p a/b/c</code> <span class="comment"># Cria hierarquia</span>
+                </div>
+                <div class="command">
+                    <code>echo "texto" > file</code> <span class="comment"># Cria com conteúdo</span>
+                </div>
+
+                <h3>Copiar & Mover</h3>
+                <div class="command">
+                    <code>cp origem destino</code> <span class="comment"># Copia arquivo</span>
+                </div>
+                <div class="command">
+                    <code>cp -r pasta/ dest/</code> <span class="comment"># Copia pasta</span>
+                </div>
+                <div class="command">
+                    <code>cp -v file dest</code> <span class="comment"># Copia verbose</span>
+                </div>
+                <div class="command">
+                    <code>mv antigo novo</code> <span class="comment"># Move/Renomeia</span>
+                </div>
+                <div class="command">
+                    <code>mv *.txt pasta/</code> <span class="comment"># Move múltiplos</span>
+                </div>
+
+                <h3>Deletar</h3>
+                <div class="command">
+                    <code>rm arquivo</code> <span class="comment"># Deleta arquivo</span>
+                </div>
+                <div class="command">
+                    <code>rm -i arquivo</code> <span class="comment"># Pede confirmação</span>
+                </div>
+                <div class="command">
+                    <code>rm -f arquivo</code> <span class="comment"># Força deletar</span>
+                </div>
+                <div class="command">
+                    <code>rm -rf pasta/</code> <span class="comment"># Deleta pasta ⚠️</span>
+                </div>
+                <div class="command">
+                    <code>rmdir pasta</code> <span class="comment"># Remove pasta vazia</span>
+                </div>
+
+                <h3>Links</h3>
+                <div class="command">
+                    <code>ln -s origem link</code> <span class="comment"># Link simbólico</span>
+                </div>
+                <div class="command">
+                    <code>ln origem link</code> <span class="comment"># Hard link</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Gerenciamento diário de arquivos e pastas
+                </div>
+            </div>
+
+            <!-- Card Iniciante 3 -->
+            <div class="card iniciante">
+                <div class="card-header">
+                    <span class="badge iniciante"></span>
+                    <div class="card-title">🟢 Visualização & Busca</div>
+                </div>
+                
+                <h3>Ver conteúdo</h3>
+                <div class="command">
+                    <code>cat arquivo.txt</code> <span class="comment"># Mostra tudo</span>
+                </div>
+                <div class="command">
+                    <code>cat -n file</code> <span class="comment"># Com números</span>
+                </div>
+                <div class="command">
+                    <code>more arquivo</code> <span class="comment"># Página por página</span>
+                </div>
+                <div class="command">
+                    <code>less arquivo</code> <span class="comment"># Melhor navegação</span>
+                </div>
+                <div class="command">
+                    <code>head file</code> <span class="comment"># Primeiras 10 linhas</span>
+                </div>
+                <div class="command">
+                    <code>head -n 20 file</code> <span class="comment"># Primeiras 20</span>
+                </div>
+                <div class="command">
+                    <code>tail file</code> <span class="comment"># Últimas 10 linhas</span>
+                </div>
+                <div class="command">
+                    <code>tail -f log.txt</code> <span class="comment"># Monitora tempo real</span>
+                </div>
+                <div class="command">
+                    <code>tail -n 50 file</code> <span class="comment"># Últimas 50</span>
+                </div>
+
+                <h3>Buscar</h3>
+                <div class="command">
+                    <code>grep "texto" file</code> <span class="comment"># Busca string</span>
+                </div>
+                <div class="command">
+                    <code>grep -i "TEXT" file</code> <span class="comment"># Case insensitive</span>
+                </div>
+                <div class="command">
+                    <code>grep -r "texto" ./</code> <span class="comment"># Busca recursiva</span>
+                </div>
+                <div class="command">
+                    <code>grep -v "texto" file</code> <span class="comment"># Inverte (não contém)</span>
+                </div>
+                <div class="command">
+                    <code>grep -n "texto" file</code> <span class="comment"># Mostra números linha</span>
+                </div>
+                <div class="command">
+                    <code>find . -name "*.js"</code> <span class="comment"># Busca arquivos</span>
+                </div>
+                <div class="command">
+                    <code>find . -type f</code> <span class="comment"># Só arquivos</span>
+                </div>
+                <div class="command">
+                    <code>find . -type d</code> <span class="comment"># Só diretórios</span>
+                </div>
+
+                <div class="tip">
+                    💡 <kbd>Ctrl+R</kbd> busca histórico | <kbd>!!</kbd> repete último comando
+                </div>
+            </div>
+
+            <!-- Card Iniciante 4 -->
+            <div class="card iniciante">
+                <div class="card-header">
+                    <span class="badge iniciante"></span>
+                    <div class="card-title">🟢 Ajuda & Histórico</div>
+                </div>
+                
+                <h3>Documentação</h3>
+                <div class="command">
+                    <code>man ls</code> <span class="comment"># Manual do comando</span>
+                </div>
+                <div class="command">
+                    <code>ls --help</code> <span class="comment"># Ajuda rápida</span>
+                </div>
+                <div class="command">
+                    <code>which python</code> <span class="comment"># Onde está instalado</span>
+                </div>
+                <div class="command">
+                    <code>whereis python</code> <span class="comment"># Todos caminhos</span>
+                </div>
+                <div class="command">
+                    <code>type python</code> <span class="comment"># Tipo do comando</span>
+                </div>
+                <div class="command">
+                    <code>apropos search</code> <span class="comment"># Busca comandos</span>
+                </div>
+
+                <h3>Histórico</h3>
+                <div class="command">
+                    <code>history</code> <span class="comment"># Lista histórico</span>
+                </div>
+                <div class="command">
+                    <code>history 20</code> <span class="comment"># Últimos 20</span>
+                </div>
+                <div class="command">
+                    <code>history | grep git</code> <span class="comment"># Busca no histórico</span>
+                </div>
+                <div class="command">
+                    <code>!123</code> <span class="comment"># Executa comando #123</span>
+                </div>
+                <div class="command">
+                    <code>!!</code> <span class="comment"># Repete último</span>
+                </div>
+                <div class="command">
+                    <code>!git</code> <span class="comment"># Último que começa com git</span>
+                </div>
+                <div class="command">
+                    <code>history -c</code> <span class="comment"># Limpa histórico</span>
+                </div>
+
+                <h3>Informações</h3>
+                <div class="command">
+                    <code>date</code> <span class="comment"># Data e hora</span>
+                </div>
+                <div class="command">
+                    <code>cal</code> <span class="comment"># Calendário</span>
+                </div>
+                <div class="command">
+                    <code>uptime</code> <span class="comment"># Tempo ligado</span>
+                </div>
+                <div class="command">
+                    <code>w</code> <span class="comment"># Quem está logado</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa de ajuda, documentação ou referência
+                </div>
+            </div>
+
+            <!-- Card Intermediário 1 -->
+            <div id="intermediario" class="card intermediario">
+                <div class="card-header">
+                    <span class="badge intermediario"></span>
+                    <div class="card-title">🟡 Processamento de Texto</div>
+                </div>
+                
+                <h3>Pipes & Filtros</h3>
+                <div class="command">
+                    <code>cat file | grep "error"</code> <span class="comment"># Filtra linhas</span>
+                </div>
+                <div class="command">
+                    <code>cat file | sort</code> <span class="comment"># Ordena</span>
+                </div>
+                <div class="command">
+                    <code>cat file | sort | uniq</code> <span class="comment"># Remove duplicatas</span>
+                </div>
+                <div class="command">
+                    <code>cat file | wc -l</code> <span class="comment"># Conta linhas</span>
+                </div>
+                <div class="command">
+                    <code>cat file | wc -w</code> <span class="comment"># Conta palavras</span>
+                </div>
+                <div class="command">
+                    <code>cat file | wc -c</code> <span class="comment"># Conta caracteres</span>
+                </div>
+
+                <h3>Sed (Stream Editor)</h3>
+                <div class="command">
+                    <code>sed 's/old/new/' file</code> <span class="comment"># Substitui 1ª ocorrência</span>
+                </div>
+                <div class="command">
+                    <code>sed 's/old/new/g' file</code> <span class="comment"># Substitui todas</span>
+                </div>
+                <div class="command">
+                    <code>sed -i 's/old/new/g' file</code> <span class="comment"># Edita arquivo</span>
+                </div>
+                <div class="command">
+                    <code>sed '5d' file</code> <span class="comment"># Deleta linha 5</span>
+                </div>
+                <div class="command">
+                    <code>sed -n '10,20p' file</code> <span class="comment"># Imprime linhas 10-20</span>
+                </div>
+
+                <h3>Awk (Pattern Processing)</h3>
+                <div class="command">
+                    <code>awk '{print $1}' file</code> <span class="comment"># Imprime coluna 1</span>
+                </div>
+                <div class="command">
+                    <code>awk '{print $1,$3}' file</code> <span class="comment"># Colunas 1 e 3</span>
+                </div>
+                <div class="command">
+                    <code>awk '/error/ {print}' file</code> <span class="comment"># Filtra por padrão</span>
+                </div>
+                <div class="command">
+                    <code>awk '{sum+=$1} END {print sum}'</code> <span class="comment"># Soma coluna</span>
+                </div>
+
+                <h3>Cut & Paste</h3>
+                <div class="command">
+                    <code>cut -d',' -f1 file.csv</code> <span class="comment"># Corta por delimitador</span>
+                </div>
+                <div class="command">
+                    <code>cut -c1-10 file</code> <span class="comment"># Primeiros 10 chars</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Processar logs, ETL, limpeza de dados
+                </div>
+            </div>
+
+            <!-- Card Intermediário 2 -->
+            <div class="card intermediario">
+                <div class="card-header">
+                    <span class="badge intermediario"></span>
+                    <div class="card-title">🟡 Redirecionamento & Pipes</div>
+                </div>
+                
+                <h3>Redirecionamento básico</h3>
+                <div class="command">
+                    <code>comando > arquivo</code> <span class="comment"># Sobrescreve</span>
+                </div>
+                <div class="command">
+                    <code>comando >> arquivo</code> <span class="comment"># Adiciona no final</span>
+                </div>
+                <div class="command">
+                    <code>comando < arquivo</code> <span class="comment"># Input de arquivo</span>
+                </div>
+                <div class="command">
+                    <code>comando 2> erro.log</code> <span class="comment"># Só erros (stderr)</span>
+                </div>
+                <div class="command">
+                    <code>comando 1> saida.log</code> <span class="comment"># Só output (stdout)</span>
+                </div>
+                <div class="command">
+                    <code>comando &> tudo.log</code> <span class="comment"># Stdout + stderr</span>
+                </div>
+                <div class="command">
+                    <code>comando 2>&1</code> <span class="comment"># stderr → stdout</span>
+                </div>
+
+                <h3>Pipes avançados</h3>
+                <div class="command">
+                    <code>cmd1 | cmd2</code> <span class="comment"># Output cmd1 → input cmd2</span>
+                </div>
+                <div class="command">
+                    <code>cmd | tee file</code> <span class="comment"># Mostra E salva</span>
+                </div>
+                <div class="command">
+                    <code>cmd | tee -a file</code> <span class="comment"># Append</span>
+                </div>
+
+                <h3>Here Documents</h3>
+                <div class="command">
+                    <code>cat << EOF > file<br>texto<br>EOF</code> <span class="comment"># Múltiplas linhas</span>
+                </div>
+
+                <h3>Combinações úteis</h3>
+                <div class="command">
+                    <code>ls -la | grep ".js"</code> <span class="comment"># Filtra listagem</span>
+                </div>
+                <div class="command">
+                    <code>ps aux | grep node</code> <span class="comment"># Busca processos</span>
+                </div>
+                <div class="command">
+                    <code>history | tail -20</code> <span class="comment"># Últimos 20 comandos</span>
+                </div>
+                <div class="command">
+                    <code>cat log | sort | uniq -c</code> <span class="comment"># Conta únicas</span>
+                </div>
+
+                <h3>Descarte output</h3>
+                <div class="command">
+                    <code>comando > /dev/null</code> <span class="comment"># Descarta output</span>
+                </div>
+                <div class="command">
+                    <code>comando 2> /dev/null</code> <span class="comment"># Descarta erros</span>
+                </div>
+                <div class="command">
+                    <code>comando &> /dev/null</code> <span class="comment"># Descarta tudo</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Scripts, automação, processamento de dados
+                </div>
+            </div>
+
+            <!-- Card Intermediário 3 -->
+            <div class="card intermediario">
+                <div class="card-header">
+                    <span class="badge intermediario"></span>
+                    <div class="card-title">🟡 Processos & Monitoramento</div>
+                </div>
+                
+                <h3>Listar processos</h3>
+                <div class="command">
+                    <code>ps</code> <span class="comment"># Processos do terminal</span>
+                </div>
+                <div class="command">
+                    <code>ps aux</code> <span class="comment"># Todos processos</span>
+                </div>
+                <div class="command">
+                    <code>ps aux | grep node</code> <span class="comment"># Busca específico</span>
+                </div>
+                <div class="command">
+                    <code>pgrep node</code> <span class="comment"># PIDs do processo</span>
+                </div>
+                <div class="command">
+                    <code>pidof node</code> <span class="comment"># PID do programa</span>
+                </div>
+
+                <h3>Monitoramento em tempo real</h3>
+                <div class="command">
+                    <code>top</code> <span class="comment"># Monitor interativo</span>
+                </div>
+                <div class="command">
+                    <code>htop</code> <span class="comment"># Top melhorado</span>
+                </div>
+                <div class="command">
+                    <code>top -u user</code> <span class="comment"># Processos do usuário</span>
+                </div>
+
+                <h3>Gerenciar processos</h3>
+                <div class="command">
+                    <code>kill PID</code> <span class="comment"># Mata processo (TERM)</span>
+                </div>
+                <div class="command">
+                    <code>kill -9 PID</code> <span class="comment"># Mata forçado (KILL)</span>
+                </div>
+                <div class="command">
+                    <code>killall node</code> <span class="comment"># Mata todos node</span>
+                </div>
+                <div class="command">
+                    <code>pkill -f "script.js"</code> <span class="comment"># Mata por nome</span>
+                </div>
+
+                <h3>Background & Foreground</h3>
+                <div class="command">
+                    <code>comando &</code> <span class="comment"># Executa em background</span>
+                </div>
+                <div class="command">
+                    <code>Ctrl+Z</code> <span class="comment"># Pausa processo</span>
+                </div>
+                <div class="command">
+                    <code>bg</code> <span class="comment"># Continua em background</span>
+                </div>
+                <div class="command">
+                    <code>fg</code> <span class="comment"># Traz para foreground</span>
+                </div>
+                <div class="command">
+                    <code>jobs</code> <span class="comment"># Lista jobs</span>
+                </div>
+                <div class="command">
+                    <code>nohup cmd &</code> <span class="comment"># Roda desconectado</span>
+                </div>
+                <div class="command">
+                    <code>disown</code> <span class="comment"># Desvincula do terminal</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Debug produção, otimização, gerenciar serviços
+                </div>
+            </div>
+
+            <!-- Card Intermediário 4 -->
+            <div class="card intermediario">
+                <div class="card-header">
+                    <span class="badge intermediario"></span>
+                    <div class="card-title">🟡 Sistema & Recursos</div>
+                </div>
+                
+                <h3>Disco</h3>
+                <div class="command">
+                    <code>df -h</code> <span class="comment"># Espaço em disco</span>
+                </div>
+                <div class="command">
+                    <code>df -i</code> <span class="comment"># Inodes</span>
+                </div>
+                <div class="command">
+                    <code>du -sh pasta/</code> <span class="comment"># Tamanho da pasta</span>
+                </div>
+                <div class="command">
+                    <code>du -sh *</code> <span class="comment"># Tamanho de tudo</span>
+                </div>
+                <div class="command">
+                    <code>du -h --max-depth=1</code> <span class="comment"># Só 1 nível</span>
+                </div>
+                <div class="command">
+                    <code>ncdu</code> <span class="comment"># Análise interativa</span>
+                </div>
+
+                <h3>Memória</h3>
+                <div class="command">
+                    <code>free -h</code> <span class="comment"># Uso de RAM</span>
+                </div>
+                <div class="command">
+                    <code>free -m</code> <span class="comment"># Em megabytes</span>
+                </div>
+                <div class="command">
+                    <code>vmstat</code> <span class="comment"># Estatísticas VM</span>
+                </div>
+                <div class="command">
+                    <code>vmstat 5</code> <span class="comment"># A cada 5 segundos</span>
+                </div>
+
+                <h3>CPU & Load</h3>
+                <div class="command">
+                    <code>uptime</code> <span class="comment"># Load average</span>
+                </div>
+                <div class="command">
+                    <code>lscpu</code> <span class="comment"># Info da CPU</span>
+                </div>
+                <div class="command">
+                    <code>cat /proc/cpuinfo</code> <span class="comment"># Detalhes CPU</span>
+                </div>
+
+                <h3>Sistema</h3>
+                <div class="command">
+                    <code>uname -a</code> <span class="comment"># Info do sistema</span>
+                </div>
+                <div class="command">
+                    <code>lsb_release -a</code> <span class="comment"># Versão distro</span>
+                </div>
+                <div class="command">
+                    <code>hostname</code> <span class="comment"># Nome do host</span>
+                </div>
+                <div class="command">
+                    <code>dmesg | tail</code> <span class="comment"># Logs do kernel</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Monitoramento, troubleshooting, capacity planning
+                </div>
+            </div>
+
+            <!-- Card Intermediário 5 -->
+            <div class="card intermediario">
+                <div class="card-header">
+                    <span class="badge intermediario"></span>
+                    <div class="card-title">🟡 Rede & Conectividade</div>
+                </div>
+                
+                <h3>Testes de conexão</h3>
+                <div class="command">
+                    <code>ping google.com</code> <span class="comment"># Testa conectividade</span>
+                </div>
+                <div class="command">
+                    <code>ping -c 4 host</code> <span class="comment"># 4 pacotes</span>
+                </div>
+                <div class="command">
+                    <code>traceroute google.com</code> <span class="comment"># Traça rota</span>
+                </div>
+                <div class="command">
+                    <code>mtr google.com</code> <span class="comment"># Ping + traceroute</span>
+                </div>
+
+                <h3>HTTP & Downloads</h3>
+                <div class="command">
+                    <code>curl https://api.com</code> <span class="comment"># HTTP GET</span>
+                </div>
+                <div class="command">
+                    <code>curl -I https://site.com</code> <span class="comment"># Só headers</span>
+                </div>
+                <div class="command">
+                    <code>curl -X POST -d "data"</code> <span class="comment"># POST request</span>
+                </div>
+                <div class="command">
+                    <code>curl -o file url</code> <span class="comment"># Download</span>
+                </div>
+                <div class="command">
+                    <code>wget https://file.zip</code> <span class="comment"># Download arquivo</span>
+                </div>
+                <div class="command">
+                    <code>wget -c url</code> <span class="comment"># Continua download</span>
+                </div>
+
+                <h3>SSH & SCP</h3>
+                <div class="command">
+                    <code>ssh user@servidor</code> <span class="comment"># Conecta remoto</span>
+                </div>
+                <div class="command">
+                    <code>ssh -p 2222 user@host</code> <span class="comment"># Porta diferente</span>
+                </div>
+                <div class="command">
+                    <code>ssh -i key.pem user@host</code> <span class="comment"># Usa chave</span>
+                </div>
+                <div class="command">
+                    <code>scp file user@host:/path</code> <span class="comment"># Copia via SSH</span>
+                </div>
+                <div class="command">
+                    <code>scp -r pasta/ user@host:/</code> <span class="comment"># Copia pasta</span>
+                </div>
+                <div class="command">
+                    <code>rsync -avz src/ dest/</code> <span class="comment"># Sync eficiente</span>
+                </div>
+
+                <h3>Portas & Conexões</h3>
+                <div class="command">
+                    <code>netstat -tuln</code> <span class="comment"># Portas escutando</span>
+                </div>
+                <div class="command">
+                    <code>netstat -an | grep ESTABLISHED</code> <span class="comment"># Conexões ativas</span>
+                </div>
+                <div class="command">
+                    <code>ss -tuln</code> <span class="comment"># Netstat moderno</span>
+                </div>
+                <div class="command">
+                    <code>lsof -i :3000</code> <span class="comment"># Quem usa porta 3000</span>
+                </div>
+                <div class="command">
+                    <code>lsof -i -P</code> <span class="comment"># Todas conexões</span>
+                </div>
+                <div class="command">
+                    <code>nc -zv host 80</code> <span class="comment"># Testa porta aberta</span>
+                </div>
+
+                <h3>DNS & IP</h3>
+                <div class="command">
+                    <code>nslookup google.com</code> <span class="comment"># DNS lookup</span>
+                </div>
+                <div class="command">
+                    <code>dig google.com</code> <span class="comment"># DNS detalhado</span>
+                </div>
+                <div class="command">
+                    <code>host google.com</code> <span class="comment"># DNS simples</span>
+                </div>
+                <div class="command">
+                    <code>ifconfig</code> <span class="comment"># Config rede (legado)</span>
+                </div>
+                <div class="command">
+                    <code>ip addr</code> <span class="comment"># IP addresses</span>
+                </div>
+                <div class="command">
+                    <code>ip route</code> <span class="comment"># Tabela de rotas</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Deploy, troubleshooting, integrações, APIs
+                </div>
+            </div>
+
+            <!-- Card Avançado 1 -->
+            <div id="avancado" class="card avancado">
+                <div id="scripts" class="card-header">
+                    <span class="badge avancado"></span>
+                    <div class="card-title">🔴 Scripts & Variáveis</div>
+                </div>
+                
+                <h3>Variáveis</h3>
+                <div class="command">
+                    <code>nome="João"</code> <span class="comment"># Define variável</span>
+                </div>
+                <div class="command">
+                    <code>echo $nome</code> <span class="comment"># Usa variável</span>
+                </div>
+                <div class="command">
+                    <code>echo "${nome}"</code> <span class="comment"># Forma segura</span>
+                </div>
+                <div class="command">
+                    <code>readonly VAR="fix"</code> <span class="comment"># Constante</span>
+                </div>
+                <div class="command">
+                    <code>unset nome</code> <span class="comment"># Remove variável</span>
+                </div>
+
+                <h3>Variáveis especiais</h3>
+                <div class="command">
+                    <code>$0</code> <span class="comment"># Nome do script</span>
+                </div>
+                <div class="command">
+                    <code>$1, $2, $3...</code> <span class="comment"># Argumentos</span>
+                </div>
+                <div class="command">
+                    <code>$#</code> <span class="comment"># Número de args</span>
+                </div>
+                <div class="command">
+                    <code>$@</code> <span class="comment"># Todos args</span>
+                </div>
+                <div class="command">
+                    <code>$?</code> <span class="comment"># Exit code anterior</span>
+                </div>
+                <div class="command">
+                    <code>$$</code> <span class="comment"># PID do script</span>
+                </div>
+
+                <h3>Arrays</h3>
+                <div class="command">
+                    <code>arr=(a b c)</code> <span class="comment"># Define array</span>
+                </div>
+                <div class="command">
+                    <code>echo ${arr[0]}</code> <span class="comment"># Acessa elemento</span>
+                </div>
+                <div class="command">
+                    <code>echo ${arr[@]}</code> <span class="comment"># Todos elementos</span>
+                </div>
+                <div class="command">
+                    <code>echo ${#arr[@]}</code> <span class="comment"># Tamanho</span>
+                </div>
+
+                <h3>Command substitution</h3>
+                <div class="command">
+                    <code>hoje=$(date)</code> <span class="comment"># Resultado em var</span>
+                </div>
+                <div class="command">
+                    <code>files=$(ls *.txt)</code> <span class="comment"># Lista em var</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Automação, scripts complexos, CI/CD
+                </div>
+            </div>
+
+            <!-- Card Avançado 2 -->
+            <div class="card avancado">
+                <div class="card-header">
+                    <span class="badge avancado"></span>
+                    <div class="card-title">🔴 Condições & Loops</div>
+                </div>
+                
+                <h3>If/Else</h3>
+                <div class="command">
+                    <code>if [ -f "file" ]; then<br>  echo "Existe"<br>fi</code>
+                </div>
+                <div class="command">
+                    <code>if [ $x -eq 10 ]; then<br>  echo "É 10"<br>else<br>  echo "Não é"<br>fi</code>
+                </div>
+
+                <h3>Operadores de teste</h3>
+                <div class="command">
+                    <code>-f file</code> <span class="comment"># Arquivo existe</span>
+                </div>
+                <div class="command">
+                    <code>-d dir</code> <span class="comment"># Diretório existe</span>
+                </div>
+                <div class="command">
+                    <code>-z "$str"</code> <span class="comment"># String vazia</span>
+                </div>
+                <div class="command">
+                    <code>-n "$str"</code> <span class="comment"># String não vazia</span>
+                </div>
+                <div class="command">
+                    <code>$a -eq $b</code> <span class="comment"># Igual (números)</span>
+                </div>
+                <div class="command">
+                    <code>$a -ne $b</code> <span class="comment"># Diferente</span>
+                </div>
+                <div class="command">
+                    <code>$a -lt $b</code> <span class="comment"># Menor que</span>
+                </div>
+                <div class="command">
+                    <code>$a -gt $b</code> <span class="comment"># Maior que</span>
+                </div>
+                <div class="command">
+                    <code>"$a" = "$b"</code> <span class="comment"># Igual (strings)</span>
+                </div>
+
+                <h3>For Loop</h3>
+                <div class="command">
+                    <code>for i in {1..5}; do<br>  echo $i<br>done</code>
+                </div>
+                <div class="command">
+                    <code>for file in *.txt; do<br>  echo $file<br>done</code>
+                </div>
+                <div class="command">
+                    <code>for ((i=0; i<10; i++)); do<br>  echo $i<br>done</code>
+                </div>
+
+                <h3>While Loop</h3>
+                <div class="command">
+                    <code>while [ $x -lt 10 ]; do<br>  echo $x<br>  ((x++))<br>done</code>
+                </div>
+                <div class="command">
+                    <code>while read line; do<br>  echo $line<br>done < file</code>
+                </div>
+
+                <h3>Case</h3>
+                <div class="command">
+                    <code>case $1 in<br>  start) echo "Start"<br>  stop) echo "Stop"<br>  *) echo "?"<br>esac</code>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Scripts de deploy, automação condicional
+                </div>
+            </div>
+
+            <!-- Card Avançado 3 -->
+            <div class="card avancado">
+                <div class="card-header">
+                    <span class="badge avancado"></span>
+                    <div class="card-title">🔴 Funções & Debugging</div>
+                </div>
+                
+                <h3>Funções</h3>
+                <div class="command">
+                    <code>funcao() {<br>  echo "Olá $1"<br>  return 0<br>}</code>
+                </div>
+                <div class="command">
+                    <code>funcao "Mundo"</code> <span class="comment"># Chama função</span>
+                </div>
+                <div class="command">
+                    <code>local var="local"</code> <span class="comment"># Variável local</span>
+                </div>
+
+                <h3>Debugging</h3>
+                <div class="command">
+                    <code>bash -x script.sh</code> <span class="comment"># Debug mode</span>
+                </div>
+                <div class="command">
+                    <code>set -x</code> <span class="comment"># Ativa debug</span>
+                </div>
+                <div class="command">
+                    <code>set +x</code> <span class="comment"># Desativa debug</span>
+                </div>
+                <div class="command">
+                    <code>set -e</code> <span class="comment"># Exit on error</span>
+                </div>
+                <div class="command">
+                    <code>set -u</code> <span class="comment"># Error on undefined</span>
+                </div>
+                <div class="command">
+                    <code>set -o pipefail</code> <span class="comment"># Pipe error handling</span>
+                </div>
+
+                <h3>Error handling</h3>
+                <div class="command">
+                    <code>comando || echo "Erro"</code> <span class="comment"># Se falhar</span>
+                </div>
+                <div class="command">
+                    <code>comando && echo "OK"</code> <span class="comment"># Se sucesso</span>
+                </div>
+                <div class="command">
+                    <code>trap "echo Erro" ERR</code> <span class="comment"># Captura erros</span>
+                </div>
+                <div class="command">
+                    <code>trap "cleanup" EXIT</code> <span class="comment"># Executa ao sair</span>
+                </div>
+
+                <h3>Best practices</h3>
+                <div class="command">
+                    <code>#!/bin/bash</code> <span class="comment"># Shebang</span>
+                </div>
+                <div class="command">
+                    <code>set -euo pipefail</code> <span class="comment"># Strict mode</span>
+                </div>
+                <div class="command">
+                    <code>"$var"</code> <span class="comment"># Sempre quote vars</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Scripts de produção, automação crítica
+                </div>
+            </div>
+
+            <!-- Card Avançado 4 -->
+            <div class="card avancado">
+                <div class="card-header">
+                    <span class="badge avancado"></span>
+                    <div class="card-title">🔴 Power Combos</div>
+                </div>
+                
+                <h3>Logs em tempo real</h3>
+                <div class="command">
+                    <code>tail -f app.log | grep ERROR</code> <span class="comment"># Filtra ao vivo</span>
+                </div>
+                <div class="command">
+                    <code>tail -f log | awk '{print $1,$5}'</code> <span class="comment"># Extrai colunas</span>
+                </div>
+
+                <h3>Top IPs de acesso</h3>
+                <div class="command">
+                    <code>cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -10</code>
+                </div>
+
+                <h3>Busca e substitui em lote</h3>
+                <div class="command">
+                    <code>find . -name "*.js" -exec sed -i 's/var/const/g' {} \;</code>
+                </div>
+                <div class="command">
+                    <code>grep -rl "old" . | xargs sed -i 's/old/new/g'</code>
+                </div>
+
+                <h3>Paralelização</h3>
+                <div class="command">
+                    <code>cat urls.txt | xargs -P 10 -I {} curl -O {}</code> <span class="comment"># 10 paralelos</span>
+                </div>
+                <div class="command">
+                    <code>find . -name "*.jpg" | parallel convert {} {.}.png</code>
+                </div>
+
+                <h3>Compara arquivos</h3>
+                <div class="command">
+                    <code>diff file1 file2</code> <span class="comment"># Diferenças</span>
+                </div>
+                <div class="command">
+                    <code>diff -u file1 file2</code> <span class="comment"># Unified format</span>
+                </div>
+                <div class="command">
+                    <code>diff <(sort file1) <(sort file2)</code> <span class="comment"># Process substitution</span>
+                </div>
+                <div class="command">
+                    <code>comm file1 file2</code> <span class="comment"># Comum/diferente</span>
+                </div>
+
+                <h3>Processamento JSON</h3>
+                <div class="command">
+                    <code>cat api.json | jq '.data'</code> <span class="comment"># Extrai campo</span>
+                </div>
+                <div class="command">
+                    <code>curl api.com | jq -r '.[]'</code> <span class="comment"># Raw output</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Data analysis, bulk operations, otimização
+                </div>
+            </div>
+
+            <!-- Card Avançado 5 -->
+            <div class="card avancado">
+                <div class="card-header">
+                    <span class="badge avancado"></span>
+                    <div class="card-title">🔴 Permissões & Segurança</div>
+                </div>
+                
+                <h3>Permissões (chmod)</h3>
+                <div class="command">
+                    <code>chmod 755 file</code> <span class="comment"># rwxr-xr-x</span>
+                </div>
+                <div class="command">
+                    <code>chmod 644 file</code> <span class="comment"># rw-r--r--</span>
+                </div>
+                <div class="command">
+                    <code>chmod +x script.sh</code> <span class="comment"># Torna executável</span>
+                </div>
+                <div class="command">
+                    <code>chmod -R 755 dir/</code> <span class="comment"># Recursivo</span>
+                </div>
+                <div class="command">
+                    <code>chmod u+x file</code> <span class="comment"># User exec</span>
+                </div>
+                <div class="command">
+                    <code>chmod g-w file</code> <span class="comment"># Remove write grupo</span>
+                </div>
+
+                <h3>Ownership (chown)</h3>
+                <div class="command">
+                    <code>chown user file</code> <span class="comment"># Muda dono</span>
+                </div>
+                <div class="command">
+                    <code>chown user:group file</code> <span class="comment"># Dono e grupo</span>
+                </div>
+                <div class="command">
+                    <code>chown -R user dir/</code> <span class="comment"># Recursivo</span>
+                </div>
+                <div class="command">
+                    <code>chgrp group file</code> <span class="comment"># Só grupo</span>
+                </div>
+
+                <h3>SSH Keys</h3>
+                <div class="command">
+                    <code>ssh-keygen -t rsa -b 4096</code> <span class="comment"># Gera chave RSA</span>
+                </div>
+                <div class="command">
+                    <code>ssh-keygen -t ed25519</code> <span class="comment"># Ed25519 (melhor)</span>
+                </div>
+                <div class="command">
+                    <code>ssh-copy-id user@host</code> <span class="comment"># Copia chave pública</span>
+                </div>
+                <div class="command">
+                    <code>ssh-add ~/.ssh/id_rsa</code> <span class="comment"># Adiciona ao agent</span>
+                </div>
+                <div class="command">
+                    <code>chmod 600 ~/.ssh/id_rsa</code> <span class="comment"># Permissão chave</span>
+                </div>
+                <div class="command">
+                    <code>chmod 644 ~/.ssh/id_rsa.pub</code> <span class="comment"># Permissão pública</span>
+                </div>
+
+                <h3>Sudo</h3>
+                <div class="command">
+                    <code>sudo comando</code> <span class="comment"># Executa como root</span>
+                </div>
+                <div class="command">
+                    <code>sudo -u user cmd</code> <span class="comment"># Como outro user</span>
+                </div>
+                <div class="command">
+                    <code>sudo -i</code> <span class="comment"># Login como root</span>
+                </div>
+                <div class="command">
+                    <code>sudo !!</code> <span class="comment"># Repete com sudo</span>
+                </div>
+
+                <h3>Variáveis de ambiente</h3>
+                <div class="command">
+                    <code>export VAR="value"</code> <span class="comment"># Define e exporta</span>
+                </div>
+                <div class="command">
+                    <code>echo $PATH</code> <span class="comment"># Mostra PATH</span>
+                </div>
+                <div class="command">
+                    <code>export PATH=$PATH:/new</code> <span class="comment"># Adiciona ao PATH</span>
+                </div>
+                <div class="command">
+                    <code>env</code> <span class="comment"># Lista todas vars</span>
+                </div>
+                <div class="command">
+                    <code>printenv VAR</code> <span class="comment"># Mostra var específica</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> DevOps, deploy, configuração de servidores
+                </div>
+            </div>
+
+            <!-- Card Avançado 6 -->
+            <div class="card avancado">
+                <div class="card-header">
+                    <span class="badge avancado"></span>
+                    <div class="card-title">🔴 Compressão & Arquivos</div>
+                </div>
+                
+                <h3>Tar</h3>
+                <div class="command">
+                    <code>tar -czf file.tar.gz dir/</code> <span class="comment"># Compacta (gzip)</span>
+                </div>
+                <div class="command">
+                    <code>tar -xzf file.tar.gz</code> <span class="comment"># Extrai (gzip)</span>
+                </div>
+                <div class="command">
+                    <code>tar -cjf file.tar.bz2 dir/</code> <span class="comment"># Compacta (bzip2)</span>
+                </div>
+                <div class="command">
+                    <code>tar -xjf file.tar.bz2</code> <span class="comment"># Extrai (bzip2)</span>
+                </div>
+                <div class="command">
+                    <code>tar -tzf file.tar.gz</code> <span class="comment"># Lista conteúdo</span>
+                </div>
+                <div class="command">
+                    <code>tar -xzf file.tar.gz -C /dest</code> <span class="comment"># Extrai em dir</span>
+                </div>
+
+                <h3>Zip/Unzip</h3>
+                <div class="command">
+                    <code>zip file.zip files</code> <span class="comment"># Compacta</span>
+                </div>
+                <div class="command">
+                    <code>zip -r dir.zip dir/</code> <span class="comment"># Compacta pasta</span>
+                </div>
+                <div class="command">
+                    <code>unzip file.zip</code> <span class="comment"># Extrai</span>
+                </div>
+                <div class="command">
+                    <code>unzip -l file.zip</code> <span class="comment"># Lista</span>
+                </div>
+
+                <h3>Gzip</h3>
+                <div class="command">
+                    <code>gzip file</code> <span class="comment"># Compacta (remove orig)</span>
+                </div>
+                <div class="command">
+                    <code>gzip -k file</code> <span class="comment"># Mantém original</span>
+                </div>
+                <div class="command">
+                    <code>gunzip file.gz</code> <span class="comment"># Descompacta</span>
+                </div>
+                <div class="command">
+                    <code>zcat file.gz</code> <span class="comment"># Mostra sem extrair</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Backups, transferências, deploy de arquivos
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer com dicas -->
+        <div id="atalhos" class="footer">
+            <h2>💡 Dicas de Ouro</h2>
+            
+            <div class="shortcuts">
+                <div class="shortcut-item">
+                    <kbd>Ctrl+A</kbd> → Início da linha
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+E</kbd> → Fim da linha
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+U</kbd> → Apaga linha inteira
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+K</kbd> → Apaga até o fim
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+W</kbd> → Apaga palavra anterior
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+R</kbd> → Busca histórico (reverso)
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+L</kbd> → Limpa tela (clear)
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+C</kbd> → Cancela comando
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+Z</kbd> → Pausa processo
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl+D</kbd> → Exit (logout)
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Tab</kbd> → Autocomplete
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Tab Tab</kbd> → Mostra opções
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px; margin-bottom: 15px;">📊 Estatísticas</h3>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">90%</span>
+                    Servidores rodam Linux
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">80%</span>
+                    Vagas DevOps exigem Bash
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">70%</span>
+                    Deploy otimizado c/ scripts
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">30%+</span>
+                    Salário médio DevOps vs Júnior
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px;">
+                <h3 style="margin-bottom: 15px;">🎯 Aliases Úteis (adicione no ~/.bashrc)</h3>
+                <div class="command">
+                    <code>alias ll='ls -lah'</code> <span class="comment"># Lista detalhada</span>
+                </div>
+                <div class="command">
+                    <code>alias gs='git status'</code> <span class="comment"># Git status rápido</span>
+                </div>
+                <div class="command">
+                    <code>alias gp='git push'</code> <span class="comment"># Git push</span>
+                </div>
+                <div class="command">
+                    <code>alias ..='cd ..'</code> <span class="comment"># Volta pasta</span>
+                </div>
+                <div class="command">
+                    <code>alias ...='cd ../..'</code> <span class="comment"># Volta 2 níveis</span>
+                </div>
+                <div class="command">
+                    <code>alias h='history'</code> <span class="comment"># Histórico</span>
+                </div>
+                <div class="command">
+                    <code>alias c='clear'</code> <span class="comment"># Limpa tela</span>
+                </div>
+                <div class="command">
+                    <code>alias update='sudo apt update && sudo apt upgrade -y'</code>
+                </div>
+                <div class="command">
+                    <code>alias ports='netstat -tulanp'</code> <span class="comment"># Portas abertas</span>
+                </div>
+            </div>
+
+            <div id="docker" style="margin-top: 30px; padding: 20px; background: rgba(52,152,219,0.2); border-radius: 10px; border: 2px solid #3498db;">
+                <h3 style="margin-bottom: 15px;">🐳 Bonus: Docker Commands</h3>
+                <div class="command">
+                    <code>docker ps</code> <span class="comment"># Containers rodando</span>
+                </div>
+                <div class="command">
+                    <code>docker ps -a</code> <span class="comment"># Todos containers</span>
+                </div>
+                <div class="command">
+                    <code>docker logs -f container</code> <span class="comment"># Logs tempo real</span>
+                </div>
+                <div class="command">
+                    <code>docker exec -it container bash</code> <span class="comment"># Entra no container</span>
+                </div>
+                <div class="command">
+                    <code>docker stop $(docker ps -aq)</code> <span class="comment"># Para todos</span>
+                </div>
+                <div class="command">
+                    <code>docker system prune -a</code> <span class="comment"># Limpa tudo</span>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Profissional -->
+        <div class="professional-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>🐧 Bash Cheatsheet 2025</h3>
+                    <p>Sua referência completa para dominar o terminal Linux. Do iniciante ao avançado, todos os comandos que você precisa em um único lugar.</p>
+                    
+                    <div class="social-links">
+                        <a href="https://blueprintblog.tech" class="social-link" title="Website">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/blueprintblog" class="social-link" title="Twitter">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/Genildocs" class="social-link" title="GitHub">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="cta-container">
+                        <h4>🚀 Quer mais conteúdos como este?</h4>
+                        <p>Visite o <strong>blueprintblog.tech</strong> para acessar tutoriais completos, guias práticos e recursos avançados de programação e desenvolvimento.</p>
+                        <a href="https://blueprintblog.tech" class="cta-button" target="_blank">Visitar Blueprint Blog</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Navegação Rápida</h4>
+                    <ul class="footer-links">
+                        <li><a href="#iniciante">🟢 Comandos Iniciante</a></li>
+                        <li><a href="#intermediario">🟡 Comandos Intermediário</a></li>
+                        <li><a href="#avancado">🔴 Comandos Avançado</a></li>
+                        <li><a href="#scripts">📜 Scripts & Automação</a></li>
+                        <li><a href="#docker">🐳 Docker Commands</a></li>
+                        <li><a href="#atalhos">⌨️ Atalhos & Dicas</a></li>
+                    </ul>
+                </div>
+
+<!--                <div class="footer-section">-->
+<!--                    <h4>Recursos Populares</h4>-->
+<!--                    <ul class="footer-links">-->
+<!--                        <li><a href="https://blueprintblog.tech/bash-scripting" target="_blank">📖 Bash Scripting</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/linux-admin" target="_blank">🔧 Administração Linux</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/devops-tools" target="_blank">🛠️ Ferramentas DevOps</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/containerizacao" target="_blank">📦 Containerização</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/cloud-computing" target="_blank">☁️ Cloud Computing</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/ci-cd" target="_blank">🔄 CI/CD Pipelines</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+<!--                <div class="footer-section">-->
+<!--                    <h4>Comunidade</h4>-->
+<!--                    <ul class="footer-links">-->
+<!--                        <li><a href="https://blueprintblog.tech/newsletter" target="_blank">📧 Newsletter Semanal</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/cursos" target="_blank">🎓 Cursos Online</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/forum" target="_blank">💬 Fórum da Comunidade</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/github" target="_blank">🐙 Projetos Open Source</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/youtube" target="_blank">📺 Vídeos Tutoriais</a></li>-->
+<!--                        <li><a href="https://blueprintblog.tech/contato" target="_blank">📬 Entre em Contato</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 <a href="https://blueprintblog.tech" target="_blank">Blueprint Blog</a>. Todos os direitos reservados. | Criado com ❤️ pela equipe do blueprintblog.</p>
+                <p style="margin-top: 10px; font-size: 12px;">Esta cheatsheet é um projeto open source. Contribua no <a href="https://github.com/blueprintblog/bash-cheatsheet" target="_blank">GitHub</a>!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
