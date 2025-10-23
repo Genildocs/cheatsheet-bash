@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Cheatsheet - Comandos Avançados</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ecf0f1;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            color: #ecf0f1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card.docker {
+            border-color: #2496ed;
+            background: linear-gradient(135deg, rgba(36, 150, 237, 0.1) 0%, rgba(36, 150, 237, 0.05) 100%);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .badge.docker { background: #2496ed; }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            color: #3498db;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .command {
+            background: rgba(0,0,0,0.4);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 6px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-left: 3px solid #3498db;
+            line-height: 1.5;
+        }
+
+        .command code {
+            color: #00ff00;
+        }
+
+        .command .comment {
+            color: #95a5a6;
+            margin-left: 15px;
+        }
+
+        .use-case {
+            background: rgba(52,152,219,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #3498db;
+            font-size: 14px;
+        }
+
+        .use-case strong {
+            color: #3498db;
+        }
+
+        .back-to-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .back-to-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .tip {
+            background: rgba(241,196,15,0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box h4 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box h4 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .danger-box {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .danger-box h4 {
+            color: #dc3545;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Estilos do Menu de Navegação Rápida */
+        .quick-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .nav-logo span:first-child {
+            font-size: 24px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 5px;
+        }
+
+        .nav-menu li {
+            margin: 0;
+        }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(52, 152, 219, 0.2);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .nav-menu a.active {
+            background: rgba(52, 152, 219, 0.3);
+            color: #3498db;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #3498db;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Ajuste do container principal para não ficar atrás do menu */
+        .container {
+            padding-top: 80px;
+        }
+
+        /* Menu responsivo */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(30, 30, 46, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu a {
+                padding: 12px 16px;
+                font-size: 16px;
+                border-radius: 8px;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .container {
+                padding-top: 60px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll behavior */
+        .quick-nav.scrolled {
+            background: rgba(26, 26, 46, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de Navegação Rápida -->
+    <nav class="quick-nav" x-data="{ mobileMenuOpen: false, scrolled: false }"
+         x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
+         :class="scrolled ? 'scrolled' : ''">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>🐳</span>
+                <span>Docker Cheatsheet</span>
+            </div>
+            <ul class="nav-menu" :class="mobileMenuOpen ? 'active' : ''">
+                <li><a href="index.html">🐧 Bash</a></li>
+                <li><a href="git.html">🔀 Git</a></li>
+                <li><a href="docker.html" class="active">🐳 Docker</a></li>
+                <li><a href="scripts.html">📜 Scripts</a></li>
+                <!-- <li><a href="#info">ℹ️ Informações</a></li>
+                <li><a href="#containers">📦 Containers</a></li>
+                <li><a href="#images">🖼️ Imagens</a></li>
+                <li><a href="#logs">📊 Logs</a></li>
+                <li><a href="#execution">⚡ Execução</a></li>
+                <li><a href="#cleanup">🧹 Limpeza</a></li>
+                <li><a href="#compose">🔧 Compose</a></li>
+                <li><a href="#networks">🌐 Redes</a></li>
+                <li><a href="#troubleshoot">🔧 Troubleshoot</a></li> -->
+            </ul>
+            <div class="nav-toggle" :class="mobileMenuOpen ? 'active' : ''"
+                 @click="mobileMenuOpen = !mobileMenuOpen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-to-main">
+            ← Voltar para página principal
+        </a>
+
+        <div class="header">
+            <h1>🐳 Docker Cheatsheet</h1>
+            <p>Comandos essenciais para gerenciamento de containers e imagens</p>
+        </div>
+
+        <h2 class="section-title">📚 Comandos Docker por Categoria</h2>
+
+        <div class="grid">
+            <!-- Card Informações Básicas -->
+            <div id="info" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">ℹ️ Informações Básicas</div>
+                </div>
+                
+                <h3>Versão e Sistema</h3>
+                <div class="command">
+                    <code>docker --version</code> <span class="comment"># Versão Docker</span>
+                </div>
+                <div class="command">
+                    <code>docker info</code> <span class="comment"># Informações do sistema</span>
+                </div>
+                <div class="command">
+                    <code>docker system info</code> <span class="comment"># Info detalhada</span>
+                </div>
+                <div class="command">
+                    <code>docker system df</code> <span class="comment"># Uso de espaço</span>
+                </div>
+
+                <h3>Verificação</h3>
+                <div class="command">
+                    <code>docker version</code> <span class="comment"># Versão client/server</span>
+                </div>
+                <div class="command">
+                    <code>docker system events</code> <span class="comment"># Eventos em tempo real</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa verificar status do Docker, versões ou informações do sistema
+                </div>
+            </div>
+
+            <!-- Card Containers -->
+            <div id="containers" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">📦 Containers</div>
+                </div>
+                
+                <h3>Listar Containers</h3>
+                <div class="command">
+                    <code>docker ps</code> <span class="comment"># Containers rodando</span>
+                </div>
+                <div class="command">
+                    <code>docker ps -a</code> <span class="comment"># Todos containers</span>
+                </div>
+                <div class="command">
+                    <code>docker ps -q</code> <span class="comment"># Apenas IDs</span>
+                </div>
+                <div class="command">
+                    <code>docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"</code> <span class="comment"># Formatado</span>
+                </div>
+
+                <h3>Executar Containers</h3>
+                <div class="command">
+                    <code>docker run -p 3001:3001 blueprint-backend</code> <span class="comment"># Mapear porta</span>
+                </div>
+                <div class="command">
+                    <code>docker run -d --name backend -p 3001:3001 blueprint-backend</code> <span class="comment"># Detached</span>
+                </div>
+                <div class="command">
+                    <code>docker run -it --rm alpine sh</code> <span class="comment"># Interativo + remove</span>
+                </div>
+                <div class="command">
+                    <code>docker run -e NODE_ENV=production app</code> <span class="comment"># Com variáveis</span>
+                </div>
+                <div class="command">
+                    <code>docker run -v $(pwd):/app -w /app node npm install</code> <span class="comment"># Com volume</span>
+                </div>
+
+                <h3>Gerenciar Containers</h3>
+                <div class="command">
+                    <code>docker stop container_name</code> <span class="comment"># Parar container</span>
+                </div>
+                <div class="command">
+                    <code>docker stop $(docker ps -q)</code> <span class="comment"># Parar todos</span>
+                </div>
+                <div class="command">
+                    <code>docker rm container_name</code> <span class="comment"># Remover container</span>
+                </div>
+                <div class="command">
+                    <code>docker rm $(docker ps -aq)</code> <span class="comment"># Remover todos</span>
+                </div>
+                <div class="command">
+                    <code>docker restart container_name</code> <span class="comment"># Reiniciar</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Gerenciando ciclo de vida de containers, deploy ou debugging
+                </div>
+            </div>
+
+            <!-- Card Imagens -->
+            <div id="images" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">🖼️ Imagens</div>
+                </div>
+                
+                <h3>Listar Imagens</h3>
+                <div class="command">
+                    <code>docker images</code> <span class="comment"># Listar imagens</span>
+                </div>
+                <div class="command">
+                    <code>docker images -a</code> <span class="comment"># Incluir intermediárias</span>
+                </div>
+                <div class="command">
+                    <code>docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"</code> <span class="comment"># Formatado</span>
+                </div>
+
+                <h3>Build de Imagens</h3>
+                <div class="command">
+                    <code>docker build -t blueprint-backend ./backend</code> <span class="comment"># Build básico</span>
+                </div>
+                <div class="command">
+                    <code>docker build -t blueprint-frontend ./frontend</code> <span class="comment"># Build frontend</span>
+                </div>
+                <div class="command">
+                    <code>docker build --no-cache -t app:latest .</code> <span class="comment"># Sem cache</span>
+                </div>
+                <div class="command">
+                    <code>docker build --target production -t app:prod .</code> <span class="comment"># Multi-stage</span>
+                </div>
+                <div class="command">
+                    <code>docker build --build-arg NODE_ENV=production -t app .</code> <span class="comment"># Com args</span>
+                </div>
+
+                <h3>Gerenciar Imagens</h3>
+                <div class="command">
+                    <code>docker rmi image_name</code> <span class="comment"># Remover imagem</span>
+                </div>
+                <div class="command">
+                    <code>docker rmi $(docker images -q)</code> <span class="comment"># Remover todas</span>
+                </div>
+                <div class="command">
+                    <code>docker image prune</code> <span class="comment"># Imagens não usadas</span>
+                </div>
+                <div class="command">
+                    <code>docker image prune -a</code> <span class="comment"># Todas órfãs</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Criando, gerenciando ou limpando imagens Docker
+                </div>
+            </div>
+
+            <!-- Card Logs e Monitoramento -->
+            <div id="logs" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">📊 Logs e Monitoramento</div>
+                </div>
+                
+                <h3>Logs de Containers</h3>
+                <div class="command">
+                    <code>docker logs container_name</code> <span class="comment"># Ver logs</span>
+                </div>
+                <div class="command">
+                    <code>docker logs -f container_name</code> <span class="comment"># Follow logs</span>
+                </div>
+                <div class="command">
+                    <code>docker logs --tail 50 container_name</code> <span class="comment"># Últimas 50 linhas</span>
+                </div>
+                <div class="command">
+                    <code>docker logs --since="2h" container_name</code> <span class="comment"># Últimas 2 horas</span>
+                </div>
+                <div class="command">
+                    <code>docker logs --timestamps container_name</code> <span class="comment"># Com timestamps</span>
+                </div>
+
+                <h3>Monitoramento</h3>
+                <div class="command">
+                    <code>docker stats</code> <span class="comment"># Estatísticas em tempo real</span>
+                </div>
+                <div class="command">
+                    <code>docker stats container_name</code> <span class="comment"># Container específico</span>
+                </div>
+                <div class="command">
+                    <code>docker top container_name</code> <span class="comment"># Processos no container</span>
+                </div>
+
+                <h3>Inspeção</h3>
+                <div class="command">
+                    <code>docker inspect container_name</code> <span class="comment"># Detalhes container</span>
+                </div>
+                <div class="command">
+                    <code>docker inspect image_name</code> <span class="comment"># Detalhes imagem</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Debugging, monitoramento ou análise de problemas
+                </div>
+            </div>
+
+            <!-- Card Execução e Interação -->
+            <div id="execution" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">⚡ Execução e Interação</div>
+                </div>
+                
+                <h3>Executar Comandos</h3>
+                <div class="command">
+                    <code>docker exec -it container_name bash</code> <span class="comment"># Shell no container</span>
+                </div>
+                <div class="command">
+                    <code>docker exec -it container_name sh</code> <span class="comment"># Shell básico</span>
+                </div>
+                <div class="command">
+                    <code>docker exec container_name ls -la /app</code> <span class="comment"># Comando específico</span>
+                </div>
+
+                <h3>Copiar Arquivos</h3>
+                <div class="command">
+                    <code>docker cp file.txt container_name:/app/</code> <span class="comment"># Host → Container</span>
+                </div>
+                <div class="command">
+                    <code>docker cp container_name:/app/logs ./logs</code> <span class="comment"># Container → Host</span>
+                </div>
+
+                <h3>Portas e Rede</h3>
+                <div class="command">
+                    <code>docker port container_name</code> <span class="comment"># Portas mapeadas</span>
+                </div>
+                <div class="command">
+                    <code>docker run -p 8080:80 nginx</code> <span class="comment"># Mapear porta</span>
+                </div>
+                <div class="command">
+                    <code>docker run -P nginx</code> <span class="comment"># Mapear automático</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa interagir com containers em execução ou transferir arquivos
+                </div>
+            </div>
+
+            <!-- Card Limpeza e Manutenção -->
+            <div id="cleanup" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">🧹 Limpeza e Manutenção</div>
+                </div>
+                
+                <h3>Limpeza Geral</h3>
+                <div class="command">
+                    <code>docker system prune</code> <span class="comment"># Remove dados não usados</span>
+                </div>
+                <div class="command">
+                    <code>docker system prune -a</code> <span class="comment"># Remove tudo não usado</span>
+                </div>
+                <div class="command">
+                    <code>docker system prune --volumes</code> <span class="comment"># Inclui volumes</span>
+                </div>
+
+                <div class="danger-box">
+                    <h4>⚠️ ATENÇÃO</h4>
+                    <p>O comando <code>docker system prune -a --volumes</code> removerá TODOS os dados não utilizados, incluindo volumes. Use com extrema cautela!</p>
+                </div>
+
+                <h3>Limpeza Específica</h3>
+                <div class="command">
+                    <code>docker container prune</code> <span class="comment"># Containers parados</span>
+                </div>
+                <div class="command">
+                    <code>docker image prune</code> <span class="comment"># Imagens órfãs</span>
+                </div>
+                <div class="command">
+                    <code>docker volume prune</code> <span class="comment"># Volumes não usados</span>
+                </div>
+                <div class="command">
+                    <code>docker network prune</code> <span class="comment"># Redes não usadas</span>
+                </div>
+
+                <h3>Verificar Espaço</h3>
+                <div class="command">
+                    <code>docker system df</code> <span class="comment"># Uso de espaço</span>
+                </div>
+                <div class="command">
+                    <code>docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"</code> <span class="comment"># Tamanho imagens</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa liberar espaço em disco ou limpar ambiente Docker
+                </div>
+            </div>
+
+            <!-- Card Docker Compose -->
+            <div id="compose" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">🔧 Docker Compose</div>
+                </div>
+                
+                <h3>Comandos Básicos</h3>
+                <div class="command">
+                    <code>docker-compose --version</code> <span class="comment"># Versão Compose</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose up</code> <span class="comment"># Subir serviços (foreground)</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose up -d</code> <span class="comment"># Subir (background)</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose up backend</code> <span class="comment"># Serviço específico</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose up --build</code> <span class="comment"># Rebuild antes</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose up --force-recreate</code> <span class="comment"># Recriar containers</span>
+                </div>
+
+                <h3>Parar e Remover</h3>
+                <div class="command">
+                    <code>docker-compose down</code> <span class="comment"># Para e remove containers</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose down -v</code> <span class="comment"># Inclui volumes</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose stop</code> <span class="comment"># Apenas para</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose stop backend</code> <span class="comment"># Serviço específico</span>
+                </div>
+
+                <h3>Logs e Execução</h3>
+                <div class="command">
+                    <code>docker-compose logs</code> <span class="comment"># Logs todos serviços</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose logs -f</code> <span class="comment"># Follow logs</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose logs backend</code> <span class="comment"># Serviço específico</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose exec backend bash</code> <span class="comment"># Shell no container</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose exec backend cargo build</code> <span class="comment"># Comando específico</span>
+                </div>
+
+                <h3>Build e Scale</h3>
+                <div class="command">
+                    <code>docker-compose build</code> <span class="comment"># Build todos serviços</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose build backend</code> <span class="comment"># Build específico</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose build --no-cache</code> <span class="comment"># Sem cache</span>
+                </div>
+                <div class="command">
+                    <code>docker-compose up -d --scale backend=3</code> <span class="comment"># 3 instâncias</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Trabalhando com aplicações multi-container ou ambientes de desenvolvimento
+                </div>
+            </div>
+
+            <!-- Card Redes e Volumes -->
+            <div id="networks" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">🌐 Redes e Volumes</div>
+                </div>
+                
+                <h3>Gerenciar Redes</h3>
+                <div class="command">
+                    <code>docker network ls</code> <span class="comment"># Listar redes</span>
+                </div>
+                <div class="command">
+                    <code>docker network inspect bridge</code> <span class="comment"># Inspecionar rede</span>
+                </div>
+                <div class="command">
+                    <code>docker network create --driver bridge blueprint-net</code> <span class="comment"># Criar rede</span>
+                </div>
+                <div class="command">
+                    <code>docker network rm network_name</code> <span class="comment"># Remover rede</span>
+                </div>
+
+                <h3>Gerenciar Volumes</h3>
+                <div class="command">
+                    <code>docker volume ls</code> <span class="comment"># Listar volumes</span>
+                </div>
+                <div class="command">
+                    <code>docker volume inspect volume_name</code> <span class="comment"># Inspecionar volume</span>
+                </div>
+                <div class="command">
+                    <code>docker volume rm volume_name</code> <span class="comment"># Remover volume</span>
+                </div>
+                <div class="command">
+                    <code>docker run -v nome_volume:/data alpine</code> <span class="comment"># Usar volume</span>
+                </div>
+
+                <h3>Conectividade</h3>
+                <div class="command">
+                    <code>docker exec -it container1 ping container2</code> <span class="comment"># Testar conexão</span>
+                </div>
+                <div class="command">
+                    <code>docker exec frontend curl http://backend:3001/health</code> <span class="comment"># Testar API</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Configurando comunicação entre containers ou persistência de dados
+                </div>
+            </div>
+
+            <!-- Card Troubleshooting -->
+            <div id="troubleshoot" class="card docker">
+                <div class="card-header">
+                    <span class="badge docker"></span>
+                    <div class="card-title">🔧 Troubleshooting</div>
+                </div>
+                
+                <h3>Verificar Status</h3>
+                <div class="command">
+                    <code>docker version</code> <span class="comment"># Verificar instalação</span>
+                </div>
+                <div class="command">
+                    <code>systemctl status docker</code> <span class="comment"># Status serviço (Linux)</span>
+                </div>
+                <div class="command">
+                    <code>Get-Service docker</code> <span class="comment"># Status serviço (Windows)</span>
+                </div>
+
+                <h3>Problemas Comuns</h3>
+                <div class="command">
+                    <code>sudo usermod -aG docker $USER</code> <span class="comment"># Permissão Docker</span>
+                </div>
+                <div class="command">
+                    <code>newgrp docker</code> <span class="comment"># Aplicar grupo</span>
+                </div>
+
+                <h3>Problemas de Espaço</h3>
+                <div class="command">
+                    <code>docker system df</code> <span class="comment"># Ver uso espaço</span>
+                </div>
+                <div class="command">
+                    <code>docker system prune -a</code> <span class="comment"># Limpar tudo</span>
+                </div>
+
+                <h3>Problemas de Rede</h3>
+                <div class="command">
+                    <code>docker network ls</code> <span class="comment"># Listar redes</span>
+                </div>
+                <div class="command">
+                    <code>docker network inspect bridge</code> <span class="comment"># Inspecionar rede</span>
+                </div>
+
+                <h3>Logs do Docker</h3>
+                <div class="command">
+                    <code>journalctl -u docker.service</code> <span class="comment"># Logs Docker (Linux)</span>
+                </div>
+                <div class="command">
+                    <code>Get-EventLog -LogName Application -Source Docker</code> <span class="comment"># Logs (Windows)</span>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 DICA</h4>
+                    <p>Se um container não inicia, verifique os logs com <code>docker logs container_name</code> e inspecione com <code>docker inspect container_name</code></p>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Encontrando problemas com containers, redes ou instalação Docker
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Profissional -->
+    <div class="professional-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>🐧 Bash Cheatsheet 2025</h3>
+                <p>Sua referência completa para dominar o terminal Linux. Do iniciante ao avançado, todos os comandos que você precisa em um único lugar.</p>
+                
+                <div class="social-links">
+                    <a href="https://blueprintblog.tech" class="social-link" title="Website">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/blueprintblog" class="social-link" title="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Genildocs" class="social-link" title="GitHub">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="cta-container">
+                    <h4>🚀 Quer mais conteúdos como este?</h4>
+                    <p>Visite o <strong>blueprintblog.tech</strong> para acessar tutoriais completos, guias práticos e recursos avançados de programação e desenvolvimento.</p>
+                    <a href="https://blueprintblog.tech" class="cta-button" target="_blank">Visitar Blueprint Blog</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Navegação Rápida</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">🐧 Bash Principal</a></li>
+                    <li><a href="git.html">🔀 Git Commands</a></li>
+                    <li><a href="docker.html">🐳 Docker Commands</a></li>
+                    <li><a href="scripts.html">📜 Bash Scripts</a></li>
+                    <li><a href="#containers" class="!hidden">📦 Docker Containers</a></li>
+                    <li><a href="#images" class="!hidden">🖼️ Docker Images</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 <a href="https://blueprintblog.tech" target="_blank">Blueprint Blog</a>. Todos os direitos reservados. | Criado com ❤️ pela equipe do blueprintblog.</p>
+            <p style="margin-top: 10px; font-size: 12px;">Esta cheatsheet é um projeto open source. Contribua no <a href="https://github.com/blueprintblog/bash-cheatsheet" target="_blank">GitHub</a>! | Versão v1.5.0</p>
+        </div>
+    </div>
+
+    <!-- Estilos do Footer Profissional -->
+    <style>
+        /* Estilos do Footer Profissional */
+        .professional-footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .cta-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        .cta-container h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .cta-container p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-brand h3 {
+                font-size: 24px;
+            }
+            
+            .professional-footer {
+                padding: 40px 0 20px;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            // Destaca a seção atual no menu usando Intersection Observer
+            const sections = document.querySelectorAll('div[id], h2[id]');
+            const observerOptions = {
+                rootMargin: '-80px 0px -60% 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentId = entry.target.getAttribute('id');
+                        const navLinks = document.querySelectorAll('.nav-menu a');
+                        
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + currentId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+        
+        // Scroll suave para os links internos
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Se for link externo (contém .html), não previne o comportamento padrão
+                    if (this.getAttribute('href').includes('.html')) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 80; // Compensar altura do menu
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -14,7 +14,15 @@ Acesse a cheatsheet interativa em: **[cheat-bash.blueprintblog.tech](https://che
 
 ## 📖 Sobre o Projeto
 
-Esta cheatsheet do Bash foi criada para ser a referência mais completa e prática para desenvolvedores, administradores de sistema e entusiastas de Linux. Com mais de 200 comandos organizados por categoria e nível de dificuldade, este recurso ajuda você a dominar o terminal de forma eficiente.
+Esta cheatsheet do Bash foi criada para ser a referência mais completa e prática para desenvolvedores, administradores de sistema e entusiastas de Linux. Com mais de 200 comandos organizados por categoria e nível de dificuldade, além de seções dedicadas para Git, Docker e Scripts prontos, este recurso ajuda você a dominar o terminal e automação de tarefas de forma eficiente.
+
+### 🌟 Novidades na Versão 1.5.0
+
+- **🔀 Página Git**: Comandos avançados de versionamento e colaboração
+- **🐳 Página Docker**: Gerenciamento completo de containers e imagens
+- **📜 Página Scripts**: Scripts prontos para automação e produtividade
+- **🎨 Design Moderno**: Interface responsiva com Alpine.js
+- **🧭 Navegação Integrada**: Menu unificado entre todas as seções
 
 ### 🎯 Por que esta cheatsheet?
 
@@ -29,16 +37,18 @@ Esta cheatsheet do Bash foi criada para ser a referência mais completa e práti
 ### Instalação
 
 1. **Clone o repositório:**
+
    ```bash
    git clone https://github.com/blueprintblog/bash-cheatsheet.git
    cd bash-cheatsheet
    ```
 
 2. **Abra a versão HTML:**
+
    ```bash
    # No navegador
    open bash_cheatsheet_html.html
-   
+
    # Ou serve localmente
    python3 -m http.server 8000
    # Acesse http://localhost:8000
@@ -55,18 +65,27 @@ Esta cheatsheet do Bash foi criada para ser a referência mais completa e práti
 ### Uso
 
 Navegue pela cheatsheet usando os atalhos:
+
 - **Ctrl+F** - Busca rápida de comandos
-- **Índice lateral** - Navegação por categorias
+- **Menu de navegação** - Acesso rápido a todas as seções
 - **Cores** - Indicam nível de dificuldade:
   - 🟢 **Iniciante** - Comandos essenciais do dia a dia
   - 🟡 **Intermediário** - Processamento e automação
   - 🔴 **Avançado** - Scripts e administração
+
+### 📄 Páginas Disponíveis
+
+1. **[Página Principal](index.html)** - Comandos Bash por nível
+2. **[Comandos Git](git.html)** - Versionamento e colaboração
+3. **[Comandos Docker](docker.html)** - Containers e orquestração
+4. **[Scripts Prontos](scripts.html)** - Automação e utilitários
 
 ## 📚 Conteúdo
 
 ### 🟢 Nível Iniciante
 
 #### Navegação & Sistema
+
 ```bash
 pwd                    # Print Working Directory
 whoami                 # Mostra usuário atual
@@ -79,6 +98,7 @@ cd ~                   # Vai para home
 ```
 
 #### Arquivos & Diretórios
+
 ```bash
 touch arquivo.txt      # Cria arquivo vazio
 mkdir pasta            # Cria diretório
@@ -90,6 +110,7 @@ ln -s origem link      # Link simbólico
 ```
 
 #### Visualização & Busca
+
 ```bash
 cat arquivo.txt        # Mostra tudo
 head -n 20 file        # Primeiras 20 linhas
@@ -101,6 +122,7 @@ find . -name "*.js"    # Busca arquivos
 ### 🟡 Nível Intermediário
 
 #### Processamento de Texto
+
 ```bash
 cat file | grep "error"    # Filtra linhas
 cat file | sort | uniq     # Remove duplicatas
@@ -111,6 +133,7 @@ cut -d',' -f1 file.csv     # Corta por delimitador
 ```
 
 #### Redirecionamento & Pipes
+
 ```bash
 comando > arquivo          # Sobrescreve
 comando >> arquivo         # Adiciona no final
@@ -120,6 +143,7 @@ cmd | tee file             # Mostra E salva
 ```
 
 #### Processos & Monitoramento
+
 ```bash
 ps aux                     # Todos processos
 ps aux | grep node         # Busca específico
@@ -133,6 +157,7 @@ jobs                       # Lista jobs
 ### 🔴 Nível Avançado
 
 #### Scripts & Variáveis
+
 ```bash
 #!/bin/bash                # Shebang
 nome="João"                # Define variável
@@ -143,6 +168,7 @@ hoje=$(date)               # Resultado em var
 ```
 
 #### Condições & Loops
+
 ```bash
 if [ -f "file" ]; then
   echo "Existe"
@@ -159,6 +185,7 @@ done
 ```
 
 #### Permissões & Segurança
+
 ```bash
 chmod 755 file             # rwxr-xr-x
 chmod +x script.sh         # Torna executável
@@ -170,23 +197,27 @@ sudo comando               # Executa como root
 ## 🔥 Comandos Power
 
 ### Logs em tempo real
+
 ```bash
 tail -f app.log | grep ERROR                    # Filtra ao vivo
 tail -f log | awk '{print $1,$5}'               # Extrai colunas
 ```
 
 ### Top IPs de acesso
+
 ```bash
 cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -10
 ```
 
 ### Busca e substitui em lote
+
 ```bash
 find . -name "*.js" -exec sed -i 's/var/const/g' {} \;
 grep -rl "old" . | xargs sed -i 's/old/new/g'
 ```
 
 ### Paralelização
+
 ```bash
 cat urls.txt | xargs -P 10 -I {} curl -O {}    # 10 paralelos
 find . -name "*.jpg" | parallel convert {} {.}.png
@@ -194,22 +225,34 @@ find . -name "*.jpg" | parallel convert {} {.}.png
 
 ## ⌨️ Atalhos Essenciais
 
-| Atalho | Função |
-|--------|--------|
-| `Ctrl+A` | Início da linha |
-| `Ctrl+E` | Fim da linha |
-| `Ctrl+U` | Apaga linha inteira |
-| `Ctrl+K` | Apaga até o fim |
-| `Ctrl+W` | Apaga palavra anterior |
-| `Ctrl+R` | Busca histórico (reverso) |
-| `Ctrl+L` | Limpa tela (clear) |
-| `Ctrl+C` | Cancela comando |
-| `Ctrl+Z` | Pausa processo |
-| `Ctrl+D` | Exit (logout) |
-| `Tab` | Autocomplete |
-| `Tab Tab` | Mostra opções |
+| Atalho    | Função                    |
+| --------- | ------------------------- |
+| `Ctrl+A`  | Início da linha           |
+| `Ctrl+E`  | Fim da linha              |
+| `Ctrl+U`  | Apaga linha inteira       |
+| `Ctrl+K`  | Apaga até o fim           |
+| `Ctrl+W`  | Apaga palavra anterior    |
+| `Ctrl+R`  | Busca histórico (reverso) |
+| `Ctrl+L`  | Limpa tela (clear)        |
+| `Ctrl+C`  | Cancela comando           |
+| `Ctrl+Z`  | Pausa processo            |
+| `Ctrl+D`  | Exit (logout)             |
+| `Tab`     | Autocomplete              |
+| `Tab Tab` | Mostra opções             |
 
-## 🐳 Bônus: Docker Commands
+## 🔀 Comandos Git Essenciais
+
+```bash
+git status -s               # Status curto
+git log --oneline --graph   # Histórico visual
+git checkout -b feature     # Criar branch
+git merge feature           # Merge de branch
+git rebase -i HEAD~3        # Rebase interativo
+git stash                   # Salvar mudanças
+git reset --soft HEAD~1     # Desfazer commit
+```
+
+## 🐳 Comandos Docker Essenciais
 
 ```bash
 docker ps                    # Containers rodando
@@ -220,12 +263,56 @@ docker stop $(docker ps -aq)    # Para todos
 docker system prune -a       # Limpa tudo
 ```
 
+## 📜 Scripts Práticos
+
+### Backup Automático
+
+```bash
+#!/bin/bash
+tar -czf "backup_$(date +%Y%m%d).tar.gz" /diretorio/important
+find /backups -name "*.tar.gz" -mtime +7 -delete
+```
+
+### Monitor de Sistema
+
+```bash
+#!/bin/bash
+while true; do
+    echo "CPU: $(top -bn1 | grep "Cpu(s)" | awk '{print $2}')"
+    echo "Memória: $(free -h | grep Mem | awk '{print $3"/"$2}')"
+    sleep 5
+done
+```
+
 ## 📊 Estatísticas do Mercado
 
 - **90%** dos servidores rodam Linux
 - **80%** das vagas DevOps exigem Bash
 - **70%** dos deploys otimizados usam scripts
 - **30%+** salário médio DevOps vs Júnior
+
+## 🎯 Casos de Uso
+
+### Desenvolvimento
+
+- **Automação de builds** e testes
+- **Deploy contínuo** com scripts
+- **Gerenciamento** de múltiplos projetos
+- **Integração** com Git e Docker
+
+### Administração
+
+- **Monitoramento** de servidores
+- **Backup automatizado** de dados
+- **Manutenção** de sistemas
+- **Análise** de logs e relatórios
+
+### Produtividade
+
+- **Scripts personalizados** para tarefas repetitivas
+- **Aliases** para comandos frequentes
+- **Atalhos** para navegação eficiente
+- **Templates** para projetos padrão
 
 ## 🤝 Como Contribuir
 
@@ -283,11 +370,30 @@ Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](
 
 ## 🔗 Links Úteis
 
+### Bash e Shell
+
 - [Documentação Oficial Bash](https://www.gnu.org/software/bash/manual/)
 - [ShellCheck - Validador de Scripts](https://www.shellcheck.net/)
 - [ExplainShell - Expande Comandos](https://explainshell.com/)
 - [Bash Academy - Cursos Gratuitos](https://www.bash.academy/)
+
+### Git e Versionamento
+
+- [Documentação Oficial Git](https://git-scm.com/doc)
+- [Git Interactive Tutorial](https://learngitbranching.js.org/)
+- [Pro Git Book](https://git-scm.com/book/pt-br/v2)
+
+### Docker e Containers
+
+- [Documentação Oficial Docker](https://docs.docker.com/)
+- [Docker Hub](https://hub.docker.com/)
+- [Play with Docker](https://labs.play-with-docker.com/)
+
+### DevOps e Automação
+
 - [DevOps Roadmap](https://roadmap.sh/devops)
+- [Awesome Bash](https://github.com/awesome-lists/awesome-bash)
+- [Shell Scripting Best Practices](https://google.github.io/styleguide/shellguide.html)
 
 ---
 

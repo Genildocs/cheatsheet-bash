@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Cheatsheet - Comandos Avançados</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ecf0f1;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            color: #ecf0f1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card.git {
+            border-color: #f05032;
+            background: linear-gradient(135deg, rgba(240, 80, 50, 0.1) 0%, rgba(240, 80, 50, 0.05) 100%);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .badge.git { background: #f05032; }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            color: #3498db;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .command {
+            background: rgba(0,0,0,0.4);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 6px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-left: 3px solid #3498db;
+            line-height: 1.5;
+        }
+
+        .command code {
+            color: #00ff00;
+        }
+
+        .command .comment {
+            color: #95a5a6;
+            margin-left: 15px;
+        }
+
+        .use-case {
+            background: rgba(52,152,219,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #3498db;
+            font-size: 14px;
+        }
+
+        .use-case strong {
+            color: #3498db;
+        }
+
+        .back-to-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .back-to-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .tip {
+            background: rgba(241,196,15,0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box h4 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box h4 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .danger-box {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .danger-box h4 {
+            color: #dc3545;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Estilos do Menu de Navegação Rápida */
+        .quick-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .nav-logo span:first-child {
+            font-size: 24px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 5px;
+        }
+
+        .nav-menu li {
+            margin: 0;
+        }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(52, 152, 219, 0.2);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .nav-menu a.active {
+            background: rgba(52, 152, 219, 0.3);
+            color: #3498db;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #3498db;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Ajuste do container principal para não ficar atrás do menu */
+        .container {
+            padding-top: 80px;
+        }
+
+        /* Menu responsivo */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(30, 30, 46, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu a {
+                padding: 12px 16px;
+                font-size: 16px;
+                border-radius: 8px;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .container {
+                padding-top: 60px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll behavior */
+        .quick-nav.scrolled {
+            background: rgba(26, 26, 46, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de Navegação Rápida -->
+    <nav class="quick-nav" x-data="{ mobileMenuOpen: false, scrolled: false }"
+         x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
+         :class="scrolled ? 'scrolled' : ''">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>🔀</span>
+                <span>Git Cheatsheet</span>
+            </div>
+            <ul class="nav-menu" :class="mobileMenuOpen ? 'active' : ''">
+                <li><a href="index.html">🐧 Bash</a></li>
+                <li><a href="git.html" class="active">🔀 Git</a></li>
+                <li><a href="docker.html">🐳 Docker</a></li>
+                <li><a href="scripts.html">📜 Scripts</a></li>
+                {% comment %} <li><a href="#status">📊 Status</a></li>
+                <li><a href="#branches">🌿 Branches</a></li>
+                <li><a href="#merge">🔄 Merge</a></li>
+                <li><a href="#search">🔍 Busca</a></li>
+                <li><a href="#tags">🏷️ Tags</a></li>
+                <li><a href="#stash">📦 Stash</a></li>
+                <li><a href="#reset">↩️ Reset</a></li>
+                <li><a href="#remote">☁️ Remote</a></li> {% endcomment %}
+            </ul>
+            <div class="nav-toggle" :class="mobileMenuOpen ? 'active' : ''"
+                 @click="mobileMenuOpen = !mobileMenuOpen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-to-main">
+            ← Voltar para página principal
+        </a>
+
+        <div class="header">
+            <h1>🔀 Git Cheatsheet</h1>
+            <p>Comandos avançados para controle de versão e colaboração</p>
+        </div>
+
+        <h2 class="section-title">📚 Comandos Git por Categoria</h2>
+
+        <div class="grid">
+            <!-- Card Status e Histórico -->
+            <div id="status" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">📊 Status e Histórico</div>
+                </div>
+                
+                <h3>Status</h3>
+                <div class="command">
+                    <code>git status -s</code> <span class="comment"># Status curto</span>
+                </div>
+                <div class="command">
+                    <code>git status --porcelain</code> <span class="comment"># Status para scripts</span>
+                </div>
+                <div class="command">
+                    <code>git status --ignored</code> <span class="comment"># Incluir ignorados</span>
+                </div>
+
+                <h3>Histórico Avançado</h3>
+                <div class="command">
+                    <code>git log --oneline --graph --all --decorate</code> <span class="comment"># Visualização completa</span>
+                </div>
+                <div class="command">
+                    <code>git log --stat</code> <span class="comment"># Com estatísticas</span>
+                </div>
+                <div class="command">
+                    <code>git log --patch</code> <span class="comment"># Com diff completo</span>
+                </div>
+                <div class="command">
+                    <code>git log --since="2 weeks ago"</code> <span class="comment"># Por período</span>
+                </div>
+                <div class="command">
+                    <code>git log --author="nome"</code> <span class="comment"># Por autor</span>
+                </div>
+                <div class="command">
+                    <code>git log --grep="fix"</code> <span class="comment"># Por mensagem</span>
+                </div>
+                <div class="command">
+                    <code>git log -S "função"</code> <span class="comment"># Por código</span>
+                </div>
+                <div class="command">
+                    <code>git log --follow arquivo.txt</code> <span class="comment"># Seguir renomeações</span>
+                </div>
+
+                <h3>Visualizar Mudanças</h3>
+                <div class="command">
+                    <code>git show HEAD</code> <span class="comment"># Último commit</span>
+                </div>
+                <div class="command">
+                    <code>git show HEAD~2</code> <span class="comment"># 2 commits atrás</span>
+                </div>
+                <div class="command">
+                    <code>git show --name-only HEAD</code> <span class="comment"># Apenas nomes</span>
+                </div>
+                <div class="command">
+                    <code>git show --stat HEAD</code> <span class="comment"># Com estatísticas</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa verificar estado do repositório, histórico de mudanças ou commits específicos
+                </div>
+            </div>
+
+            <!-- Card Branches -->
+            <div id="branches" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">🌿 Branches Avançadas</div>
+                </div>
+                
+                <h3>Criar e Trocar</h3>
+                <div class="command">
+                    <code>git checkout -b feature/nova-funcionalidade</code> <span class="comment"># Criar e trocar</span>
+                </div>
+                <div class="command">
+                    <code>git switch -c feature/nova-funcionalidade</code> <span class="comment"># Comando moderno</span>
+                </div>
+
+                <h3>Listar Branches</h3>
+                <div class="command">
+                    <code>git branch -a</code> <span class="comment"># Todas (local + remote)</span>
+                </div>
+                <div class="command">
+                    <code>git branch -r</code> <span class="comment"># Apenas remotas</span>
+                </div>
+                <div class="command">
+                    <code>git branch -v</code> <span class="comment"># Com último commit</span>
+                </div>
+                <div class="command">
+                    <code>git branch --merged</code> <span class="comment"># Já mergeadas</span>
+                </div>
+                <div class="command">
+                    <code>git branch --no-merged</code> <span class="comment"># Não mergeadas</span>
+                </div>
+
+                <h3>Deletar Branches</h3>
+                <div class="command">
+                    <code>git branch -d feature-branch</code> <span class="comment"># Delete seguro</span>
+                </div>
+                <div class="command">
+                    <code>git branch -D feature-branch</code> <span class="comment"># Force delete</span>
+                </div>
+                <div class="command">
+                    <code>git push origin --delete feature-branch</code> <span class="comment"># Delete remota</span>
+                </div>
+
+                <h3>Renomear Branch</h3>
+                <div class="command">
+                    <code>git branch -m old-name new-name</code> <span class="comment"># Renomear atual</span>
+                </div>
+                <div class="command">
+                    <code>git branch -M old-name new-name</code> <span class="comment"># Force rename</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Trabalhando com múltiplos recursos, correções ou ambientes
+                </div>
+            </div>
+
+            <!-- Card Merge e Rebase -->
+            <div id="merge" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">🔄 Merge e Rebase</div>
+                </div>
+                
+                <h3>Merge Strategies</h3>
+                <div class="command">
+                    <code>git merge feature-branch</code> <span class="comment"># Merge normal</span>
+                </div>
+                <div class="command">
+                    <code>git merge --no-ff feature-branch</code> <span class="comment"># Sempre criar merge commit</span>
+                </div>
+                <div class="command">
+                    <code>git merge --squash feature-branch</code> <span class="comment"># Squash commits</span>
+                </div>
+
+                <h3>Rebase Interativo</h3>
+                <div class="command">
+                    <code>git rebase -i HEAD~3</code> <span class="comment"># Últimos 3 commits</span>
+                </div>
+                <div class="command">
+                    <code>git rebase -i main</code> <span class="comment"># Desde main</span>
+                </div>
+                <div class="command">
+                    <code>git rebase --continue</code> <span class="comment"># Continuar após conflitos</span>
+                </div>
+                <div class="command">
+                    <code>git rebase --abort</code> <span class="comment"># Cancelar rebase</span>
+                </div>
+
+                <h3>Cherry-pick</h3>
+                <div class="command">
+                    <code>git cherry-pick abc123</code> <span class="comment"># Aplicar commit específico</span>
+                </div>
+                <div class="command">
+                    <code>git cherry-pick abc123..def456</code> <span class="comment"># Range de commits</span>
+                </div>
+                <div class="command">
+                    <code>git cherry-pick --no-commit abc123</code> <span class="comment"># Sem criar commit</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Integrando mudanças, reorganizando histórico ou aplicando commits específicos
+                </div>
+            </div>
+
+            <!-- Card Busca e Investigação -->
+            <div id="search" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">🔍 Busca e Investigação</div>
+                </div>
+                
+                <h3>Buscar no Código</h3>
+                <div class="command">
+                    <code>git grep "função"</code> <span class="comment"># No working tree</span>
+                </div>
+                <div class="command">
+                    <code>git grep "função" HEAD~5</code> <span class="comment"># Em commit específico</span>
+                </div>
+                <div class="command">
+                    <code>git grep -n "função"</code> <span class="comment"># Com números de linha</span>
+                </div>
+                <div class="command">
+                    <code>git grep -i "função"</code> <span class="comment"># Case insensitive</span>
+                </div>
+
+                <h3>Blame e Histórico</h3>
+                <div class="command">
+                    <code>git blame arquivo.txt</code> <span class="comment"># Quem modificou cada linha</span>
+                </div>
+                <div class="command">
+                    <code>git blame -L 10,20 arquivo.txt</code> <span class="comment"># Linhas específicas</span>
+                </div>
+                <div class="command">
+                    <code>git log -p arquivo.txt</code> <span class="comment"># Histórico com patches</span>
+                </div>
+                <div class="command">
+                    <code>git log --follow arquivo.txt</code> <span class="comment"># Seguir renomeações</span>
+                </div>
+
+                <h3>Bisect para Bugs</h3>
+                <div class="command">
+                    <code>git bisect start</code> <span class="comment"># Iniciar bisect</span>
+                </div>
+                <div class="command">
+                    <code>git bisect bad HEAD</code> <span class="comment"># Commit atual tem bug</span>
+                </div>
+                <div class="command">
+                    <code>git bisect good v1.0.0</code> <span class="comment"># Versão boa conhecida</span>
+                </div>
+                <div class="command">
+                    <code>git bisect run npm test</code> <span class="comment"># Automatizar com testes</span>
+                </div>
+                <div class="command">
+                    <code>git bisect reset</code> <span class="comment"># Finalizar bisect</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Debugging, investigando bugs ou rastreando mudanças
+                </div>
+            </div>
+
+            <!-- Card Tags e Releases -->
+            <div id="tags" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">🏷️ Tags e Releases</div>
+                </div>
+                
+                <h3>Criar Tags</h3>
+                <div class="command">
+                    <code>git tag v1.0.0</code> <span class="comment"># Tag simples</span>
+                </div>
+                <div class="command">
+                    <code>git tag -a v1.0.0 -m "Release 1.0.0"</code> <span class="comment"># Tag anotada</span>
+                </div>
+                <div class="command">
+                    <code>git tag -a v1.0.0 abc123 -m "Tag commit específico"</code> <span class="comment"># Em commit específico</span>
+                </div>
+
+                <h3>Listar e Gerenciar</h3>
+                <div class="command">
+                    <code>git tag</code> <span class="comment"># Listar todas</span>
+                </div>
+                <div class="command">
+                    <code>git tag -l "v1.*"</code> <span class="comment"># Filtrar tags</span>
+                </div>
+                <div class="command">
+                    <code>git show v1.0.0</code> <span class="comment"># Ver detalhes</span>
+                </div>
+                <div class="command">
+                    <code>git tag -d v1.0.0</code> <span class="comment"># Deletar tag local</span>
+                </div>
+                <div class="command">
+                    <code>git push origin --delete v1.0.0</code> <span class="comment"># Deletar tag remota</span>
+                </div>
+
+                <h3>Push Tags</h3>
+                <div class="command">
+                    <code>git push origin v1.0.0</code> <span class="comment"># Tag específica</span>
+                </div>
+                <div class="command">
+                    <code>git push origin --tags</code> <span class="comment"># Todas as tags</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Marcando versões, releases ou pontos importantes no projeto
+                </div>
+            </div>
+
+            <!-- Card Stash -->
+            <div id="stash" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">📦 Stash Avançado</div>
+                </div>
+                
+                <h3>Stash Básico</h3>
+                <div class="command">
+                    <code>git stash</code> <span class="comment"># Stash mudanças</span>
+                </div>
+                <div class="command">
+                    <code>git stash push -m "WIP: feature X"</code> <span class="comment"># Com mensagem</span>
+                </div>
+                <div class="command">
+                    <code>git stash push -- arquivo.txt</code> <span class="comment"># Arquivo específico</span>
+                </div>
+                <div class="command">
+                    <code>git stash push --include-untracked</code> <span class="comment"># Incluir não rastreados</span>
+                </div>
+
+                <h3>Gerenciar Stashes</h3>
+                <div class="command">
+                    <code>git stash list</code> <span class="comment"># Listar stashes</span>
+                </div>
+                <div class="command">
+                    <code>git stash show stash@{0}</code> <span class="comment"># Ver mudanças</span>
+                </div>
+                <div class="command">
+                    <code>git stash show -p stash@{0}</code> <span class="comment"># Ver patch completo</span>
+                </div>
+                <div class="command">
+                    <code>git stash apply stash@{0}</code> <span class="comment"># Aplicar sem remover</span>
+                </div>
+                <div class="command">
+                    <code>git stash pop stash@{0}</code> <span class="comment"># Aplicar e remover</span>
+                </div>
+                <div class="command">
+                    <code>git stash drop stash@{0}</code> <span class="comment"># Remover stash</span>
+                </div>
+                <div class="command">
+                    <code>git stash clear</code> <span class="comment"># Limpar todos</span>
+                </div>
+
+                <h3>Stash Avançado</h3>
+                <div class="command">
+                    <code>git stash branch nova-branch stash@{0}</code> <span class="comment"># Criar branch do stash</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa mudar de branch rapidamente sem commitar mudanças
+                </div>
+            </div>
+
+            <!-- Card Reset e Restore -->
+            <div id="reset" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">↩️ Reset e Restore</div>
+                </div>
+                
+                <h3>Reset (cuidado!)</h3>
+                <div class="command">
+                    <code>git reset --soft HEAD~1</code> <span class="comment"># Desfaz commit, mantém staged</span>
+                </div>
+                <div class="command">
+                    <code>git reset --mixed HEAD~1</code> <span class="comment"># Desfaz commit e staging</span>
+                </div>
+                <div class="command">
+                    <code>git reset --hard HEAD~1</code> <span class="comment"># APAGA TUDO! Cuidado!</span>
+                </div>
+
+                <div class="danger-box">
+                    <h4>⚠️ ATENÇÃO</h4>
+                    <p>O comando <code>git reset --hard</code> é irreversível e perderá todas as mudanças não commitadas. Use com extrema cautela!</p>
+                </div>
+
+                <h3>Restore (comando moderno)</h3>
+                <div class="command">
+                    <code>git restore arquivo.txt</code> <span class="comment"># Restaurar working tree</span>
+                </div>
+                <div class="command">
+                    <code>git restore --staged arquivo.txt</code> <span class="comment"># Unstage arquivo</span>
+                </div>
+                <div class="command">
+                    <code>git restore --source=HEAD~1 arquivo.txt</code> <span class="comment"># Restaurar de commit específico</span>
+                </div>
+
+                <h3>Reflog (histórico de referências)</h3>
+                <div class="command">
+                    <code>git reflog</code> <span class="comment"># Ver histórico de HEAD</span>
+                </div>
+                <div class="command">
+                    <code>git reflog show main</code> <span class="comment"># Histórico de branch</span>
+                </div>
+                <div class="command">
+                    <code>git reset --hard HEAD@{2}</code> <span class="comment"># Voltar usando reflog</span>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 DICA</h4>
+                    <p>O reflog é um salva-vidas! Mesmo após um reset --hard, você pode recuperar commits perdidos usando o reflog.</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa desfazer mudanças, recuperar commits ou limpar working directory
+                </div>
+            </div>
+
+            <!-- Card Remote e Colaboração -->
+            <div id="remote" class="card git">
+                <div class="card-header">
+                    <span class="badge git"></span>
+                    <div class="card-title">☁️ Remote e Colaboração</div>
+                </div>
+                
+                <h3>Gerenciar Remotes</h3>
+                <div class="command">
+                    <code>git remote -v</code> <span class="comment"># Listar remotes</span>
+                </div>
+                <div class="command">
+                    <code>git remote add upstream https://...</code> <span class="comment"># Adicionar remote</span>
+                </div>
+                <div class="command">
+                    <code>git remote set-url origin https://...</code> <span class="comment"># Alterar URL</span>
+                </div>
+                <div class="command">
+                    <code>git remote remove upstream</code> <span class="comment"># Remover remote</span>
+                </div>
+
+                <h3>Fetch e Pull Avançado</h3>
+                <div class="command">
+                    <code>git fetch --all</code> <span class="comment"># Fetch de todos os remotes</span>
+                </div>
+                <div class="command">
+                    <code>git fetch --prune</code> <span class="comment"># Remove refs deletadas</span>
+                </div>
+                <div class="command">
+                    <code>git pull --rebase</code> <span class="comment"># Pull com rebase</span>
+                </div>
+                <div class="command">
+                    <code>git pull --ff-only</code> <span class="comment"># Apenas fast-forward</span>
+                </div>
+
+                <h3>Push Avançado</h3>
+                <div class="command">
+                    <code>git push -u origin feature-branch</code> <span class="comment"># Set upstream</span>
+                </div>
+                <div class="command">
+                    <code>git push --force-with-lease</code> <span class="comment"># Force push seguro</span>
+                </div>
+                <div class="command">
+                    <code>git push origin :feature-branch</code> <span class="comment"># Delete remote branch</span>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Trabalhando em equipe, sincronizando com repositórios remotos ou gerenciando contribuições
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Profissional -->
+    <div class="professional-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>🐧 Bash Cheatsheet 2025</h3>
+                <p>Sua referência completa para dominar o terminal Linux. Do iniciante ao avançado, todos os comandos que você precisa em um único lugar.</p>
+                
+                <div class="social-links">
+                    <a href="https://blueprintblog.tech" class="social-link" title="Website">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/blueprintblog" class="social-link" title="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Genildocs" class="social-link" title="GitHub">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="cta-container">
+                    <h4>🚀 Quer mais conteúdos como este?</h4>
+                    <p>Visite o <strong>blueprintblog.tech</strong> para acessar tutoriais completos, guias práticos e recursos avançados de programação e desenvolvimento.</p>
+                    <a href="https://blueprintblog.tech" class="cta-button" target="_blank">Visitar Blueprint Blog</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Navegação Rápida</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">🐧 Bash Principal</a></li>
+                    <li><a href="git.html">🔀 Git Commands</a></li>
+                    <li><a href="docker.html">🐳 Docker Commands</a></li>
+                    <li><a href="scripts.html">📜 Bash Scripts</a></li>
+                    <li><a href="#status" class="!hidden">📊 Git Status</a></li>
+                    <li><a href="#branches" class="!hidden">🌿 Git Branches</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 <a href="https://blueprintblog.tech" target="_blank">Blueprint Blog</a>. Todos os direitos reservados. | Criado com ❤️ pela equipe do blueprintblog.</p>
+            <p style="margin-top: 10px; font-size: 12px;">Esta cheatsheet é um projeto open source. Contribua no <a href="https://github.com/blueprintblog/bash-cheatsheet" target="_blank">GitHub</a>! | Versão v1.5.0</p>
+        </div>
+    </div>
+
+    <!-- Estilos do Footer Profissional -->
+    <style>
+        /* Estilos do Footer Profissional */
+        .professional-footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .cta-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        .cta-container h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .cta-container p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-brand h3 {
+                font-size: 24px;
+            }
+            
+            .professional-footer {
+                padding: 40px 0 20px;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            // Destaca a seção atual no menu usando Intersection Observer
+            const sections = document.querySelectorAll('div[id], h2[id]');
+            const observerOptions = {
+                rootMargin: '-80px 0px -60% 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentId = entry.target.getAttribute('id');
+                        const navLinks = document.querySelectorAll('.nav-menu a');
+                        
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + currentId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+        
+        // Scroll suave para os links internos
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Se for link externo (contém .html), não previne o comportamento padrão
+                    if (this.getAttribute('href').includes('.html')) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 80; // Compensar altura do menu
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

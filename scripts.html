@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bash Scripts Cheatsheet 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ecf0f1;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            color: #ecf0f1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card.scripts {
+            border-color: #9b59b6;
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(155, 89, 182, 0.05) 100%);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .badge.scripts { background: #9b59b6; }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            color: #3498db;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .script-block {
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-left: 3px solid #9b59b6;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .script-block code {
+            color: #00ff00;
+            white-space: pre;
+        }
+
+        .script-title {
+            color: #f39c12;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .script-description {
+            color: #95a5a6;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .command {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 6px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-left: 3px solid #3498db;
+            line-height: 1.5;
+        }
+
+        .command code {
+            color: #00ff00;
+        }
+
+        .command .comment {
+            color: #95a5a6;
+            margin-left: 15px;
+        }
+
+        .use-case {
+            background: rgba(52,152,219,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #3498db;
+            font-size: 14px;
+        }
+
+        .use-case strong {
+            color: #3498db;
+        }
+
+        .back-to-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .back-to-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .tip {
+            background: rgba(241,196,15,0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box h4 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box h4 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .danger-box {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .danger-box h4 {
+            color: #dc3545;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Estilos do Menu de Navegação Rápida */
+        .quick-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .nav-logo span:first-child {
+            font-size: 24px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 5px;
+        }
+
+        .nav-menu li {
+            margin: 0;
+        }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(52, 152, 219, 0.2);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .nav-menu a.active {
+            background: rgba(52, 152, 219, 0.3);
+            color: #3498db;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #3498db;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Ajuste do container principal para não ficar atrás do menu */
+        .container {
+            padding-top: 80px;
+        }
+
+        /* Menu responsivo */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(30, 30, 46, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu a {
+                padding: 12px 16px;
+                font-size: 16px;
+                border-radius: 8px;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .container {
+                padding-top: 60px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll behavior */
+        .quick-nav.scrolled {
+            background: rgba(26, 26, 46, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de Navegação Rápida -->
+    <nav class="quick-nav" x-data="{ mobileMenuOpen: false, scrolled: false }" 
+         x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
+         :class="scrolled ? 'scrolled' : ''">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>📜</span>
+                <span>Bash Scripts</span>
+            </div>
+            <ul class="nav-menu" :class="mobileMenuOpen ? 'active' : ''">
+                <li><a href="index.html">🐧 Bash</a></li>
+                <li><a href="git.html">🔀 Git</a></li>
+                <li><a href="docker.html">🐳 Docker</a></li>
+                <li><a href="scripts.html" class="active">📜 Scripts</a></li>
+                <!-- <li><a href="#basics">📝 Básicos</a></li> -->
+                <!-- <li><a href="#automation">🤖 Automação</a></li>
+                <li><a href="#monitoring">📊 Monitoramento</a></li>
+                <li><a href="#backup">💾 Backup</a></li>
+                <li><a href="#utilities">🛠️ Utilitários</a></li>
+                <li><a href="#advanced">🚀 Avançados</a></li> -->
+            </ul>
+            <div class="nav-toggle" :class="mobileMenuOpen ? 'active' : ''" 
+                 @click="mobileMenuOpen = !mobileMenuOpen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-to-main">
+            ← Voltar para página principal
+        </a>
+
+        <div class="header">
+            <h1>📜 Bash Scripts Cheatsheet</h1>
+            <p>Scripts prontos para automação, monitoramento e produtividade</p>
+        </div>
+
+        <h2 class="section-title">📚 Scripts por Categoria</h2>
+
+        <div class="grid">
+            <!-- Card Scripts Básicos -->
+            <div id="basics" class="card scripts">
+                <div class="card-header">
+                    <span class="badge scripts"></span>
+                    <div class="card-title">📝 Scripts Básicos</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-title">Hello World com Argumentos</div>
+                    <div class="script-description">Script básico que demonstra uso de argumentos</div>
+                    <code>#!/bin/bash
+# hello.sh - Script básico com argumentos
+
+NOME=${1:-"Mundo"}
+echo "Olá, $NOME!"
+echo "Hoje é $(date '+%d/%m/%Y')"
+echo "Este script foi executado por $(whoami)"</code>
+                </div>
+
+                <div class="script-block">
+                    <div class="script-title">Calculadora Simples</div>
+                    <div class="script-description">Realiza operações matemáticas básicas</div>
+                    <code>#!/bin/bash
+# calculator.sh - Calculadora simples
+
+if [ $# -ne 3 ]; then
+    echo "Uso: $0 <numero1> <operador> <numero2>"
+    echo "Operadores: +, -, *, /"
+    exit 1
+fi
+
+num1=$1
+op=$2
+num2=$3
+
+case $op in
+    +) echo $((num1 + num2)) ;;
+    -) echo $((num1 - num2)) ;;
+    \*) echo $((num1 * num2)) ;;
+    /) 
+        if [ $num2 -eq 0 ]; then
+            echo "Erro: Divisão por zero!"
+            exit 1
+        fi
+        echo "scale=2; $num1 / $num2" | bc ;;
+    *) echo "Operador inválido!" ;;
+esac</code>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Aprendendo Bash ou criando scripts simples para tarefas do dia a dia
+                </div>
+            </div>
+
+            <!-- Card Scripts de Automação -->
+            <div id="automation" class="card scripts">
+                <div class="card-header">
+                    <span class="badge scripts"></span>
+                    <div class="card-title">🤖 Scripts de Automação</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-title">Auto-Commit Git</div>
+                    <div class="script-description">Automatiza commits frequentes durante desenvolvimento</div>
+                    <code>#!/bin/bash
+# git-auto-commit.sh - Auto-commit para desenvolvimento
+
+MENSAGEM=${1:-"Atualização automática"}
+ARQUIVOS=${2:-"."}
+
+# Verifica se há mudanças
+if git diff --quiet $ARQUIVOS; then
+    echo "Nenhuma mudança encontrada."
+    exit 0
+fi
+
+# Adiciona arquivos e faz commit
+git add $ARQUIVOS
+git commit -m "$MENSAGEM"
+
+# Pergunta se quer fazer push
+read -p "Fazer push para o repositório remoto? (s/n): " resposta
+if [[ $resposta =~ ^[Ss]$ ]]; then
+    git push
+    echo "Push realizado com sucesso!"
+fi</code>
+                </div>
+
+                <div class="script-block">
+                    <div class="script-title">Setup de Projeto Node.js</div>
+                    <div class="script-description">Cria estrutura básica para projetos Node.js</div>
+                    <code>#!/bin/bash
+# setup-node-project.sh - Setup automático de projeto Node.js
+
+PROJECT_NAME=$1
+
+if [ -z "$PROJECT_NAME" ]; then
+    echo "Uso: $0 <nome-do-projeto>"
+    exit 1
+fi
+
+# Cria diretório do projeto
+mkdir -p $PROJECT_NAME
+cd $PROJECT_NAME
+
+# Inicia projeto npm
+npm init -y
+
+# Instala dependências comuns
+npm install express dotenv cors helmet morgan
+npm install -D nodemon jest supertest
+
+# Cria estrutura de diretórios
+mkdir -p src/{routes,controllers,middleware,models,utils}
+mkdir -p tests
+
+# Cria arquivo index.js básico
+cat > src/index.js << 'EOF'
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(helmet());
+app.use(cors());
+app.use(morgan('combined'));
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.json({ message: 'API funcionando!' });
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
+EOF
+
+# Cria .env template
+echo "PORT=3000" > .env
+echo ".env" > .gitignore
+
+echo "Projeto Node.js '$PROJECT_NAME' criado com sucesso!"
+echo "Execute: cd $PROJECT_NAME && npm start"</code>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa automatizar tarefas repetitivas de desenvolvimento
+                </div>
+            </div>
+
+            <!-- Card Scripts de Monitoramento -->
+            <div id="monitoring" class="card scripts">
+                <div class="card-header">
+                    <span class="badge scripts"></span>
+                    <div class="card-title">📊 Scripts de Monitoramento</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-title">Monitor de Recursos do Sistema</div>
+                    <div class="script-description">Monitora CPU, memória e disco em tempo real</div>
+                    <code>#!/bin/bash
+# system-monitor.sh - Monitor de recursos do sistema
+
+while true; do
+    clear
+    echo "=== MONITOR DE RECURSOS ==="
+    echo "Data/Hora: $(date '+%d/%m/%Y %H:%M:%S')"
+    echo ""
+    
+    # Uso de CPU
+    CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1)
+    echo "🔥 CPU: ${CPU_USAGE}%"
+    
+    # Uso de Memória
+    MEM_INFO=$(free -h | grep Mem)
+    MEM_TOTAL=$(echo $MEM_INFO | awk '{print $2}')
+    MEM_USED=$(echo $MEM_INFO | awk '{print $3}')
+    MEM_PERCENT=$(free | grep Mem | awk '{printf "%.1f", $3/$2 * 100.0}')
+    echo "💾 Memória: $MEM_USED / $MEM_TOTAL (${MEM_PERCENT}%)"
+    
+    # Uso de Disco
+    DISK_USAGE=$(df -h / | tail -1 | awk '{print $5}')
+    echo "💿 Disco: ${DISK_USAGE} usado"
+    
+    # Processos em execução
+    PROCESS_COUNT=$(ps aux | wc -l)
+    echo "⚙️ Processos: $PROCESS_COUNT"
+    
+    # Load Average
+    LOAD_AVG=$(uptime | awk -F'load average:' '{print $2}')
+    echo "📊 Load Average:${LOAD_AVG}"
+    
+    echo ""
+    echo "Pressione Ctrl+C para sair..."
+    sleep 5
+done</code>
+                </div>
+
+                <div class="script-block">
+                    <div class="script-title">Verificador de Serviços</div>
+                    <div class="script-description">Verifica se serviços essenciais estão rodando</div>
+                    <code>#!/bin/bash
+# service-checker.sh - Verifica status de serviços
+
+SERVICES=("nginx" "mysql" "postgresql" "redis-server" "docker")
+
+echo "=== VERIFICAÇÃO DE SERVIÇOS ==="
+echo "Data: $(date '+%d/%m/%Y %H:%M:%S')"
+echo ""
+
+for service in "${SERVICES[@]}"; do
+    if systemctl is-active --quiet $service; then
+        STATUS="✅ ATIVO"
+        COLOR="\033[32m"
+    elif systemctl list-unit-files | grep -q "^${service}.service"; then
+        STATUS="❌ INATIVO"
+        COLOR="\033[31m"
+    else
+        STATUS="⚠️ NÃO INSTALADO"
+        COLOR="\033[33m"
+    fi
+    
+    echo -e "${COLOR}${service}: ${STATUS}\033[0m"
+done
+
+# Verifica portas específicas
+echo ""
+echo "=== VERIFICAÇÃO DE PORTAS ==="
+PORTS=(80 443 3306 5432 6379 27017)
+
+for port in "${PORTS[@]}"; do
+    if netstat -tuln | grep -q ":$port "; then
+        STATUS="✅ ABERTA"
+        COLOR="\033[32m"
+    else
+        STATUS="❌ FECHADA"
+        COLOR="\033[31m"
+    fi
+    
+    echo -e "${COLOR}Porta $port: ${STATUS}\033[0m"
+done</code>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa monitorar servidores ou verificar status de serviços
+                </div>
+            </div>
+
+            <!-- Card Scripts de Backup -->
+            <div id="backup" class="card scripts">
+                <div class="card-header">
+                    <span class="badge scripts"></span>
+                    <div class="card-title">💾 Scripts de Backup</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-title">Backup Automático com Rotação</div>
+                    <div class="script-description">Cria backups com data e mantém histórico</div>
+                    <code>#!/bin/bash
+# backup-with-rotation.sh - Backup com rotação automática
+
+SOURCE_DIR="/var/www/html"
+BACKUP_DIR="/backups"
+MAX_BACKUPS=7
+TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+BACKUP_NAME="backup_${TIMESTAMP}.tar.gz"
+
+# Cria diretório de backup se não existir
+mkdir -p $BACKUP_DIR
+
+# Cria backup compactado
+echo "Criando backup: $BACKUP_NAME"
+tar -czf "${BACKUP_DIR}/${BACKUP_NAME}" -C "$(dirname $SOURCE_DIR)" "$(basename $SOURCE_DIR)"
+
+# Verifica se o backup foi criado com sucesso
+if [ $? -eq 0 ]; then
+    echo "Backup criado com sucesso!"
+    
+    # Remove backups antigos
+    cd $BACKUP_DIR
+    BACKUP_COUNT=$(ls backup_*.tar.gz 2>/dev/null | wc -l)
+    
+    if [ $BACKUP_COUNT -gt $MAX_BACKUPS ]; then
+        echo "Removendo backups antigos..."
+        ls -t backup_*.tar.gz | tail -n +$((MAX_BACKUPS + 1)) | xargs rm -f
+        echo "Rotação de backup concluída."
+    fi
+    
+    # Lista backups disponíveis
+    echo ""
+    echo "Backups disponíveis:"
+    ls -lh backup_*.tar.gz
+else
+    echo "ERRO: Falha ao criar backup!"
+    exit 1
+fi</code>
+                </div>
+
+                <div class="script-block">
+                    <div class="script-title">Backup de Banco de Dados MySQL</div>
+                    <div class="script-description">Backup automatizado de banco de dados MySQL</div>
+                    <code>#!/bin/bash
+# mysql-backup.sh - Backup de banco de dados MySQL
+
+DB_HOST="localhost"
+DB_USER="backup_user"
+DB_PASS="senha_segura"
+DB_NAME="meu_banco"
+BACKUP_DIR="/backups/mysql"
+TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+BACKUP_FILE="${DB_NAME}_${TIMESTAMP}.sql.gz"
+
+# Configurações
+RETENTION_DAYS=30
+
+# Cria diretório de backup
+mkdir -p $BACKUP_DIR
+
+# Realiza backup
+echo "Iniciando backup do banco: $DB_NAME"
+mysqldump -h $DB_HOST -u $DB_USER -p$DB_PASS \
+    --single-transaction \
+    --routines \
+    --triggers \
+    $DB_NAME | gzip > "${BACKUP_DIR}/${BACKUP_FILE}"
+
+# Verifica sucesso
+if [ ${PIPESTATUS[0]} -eq 0 ]; then
+    echo "Backup concluído: $BACKUP_FILE"
+    
+    # Remove backups antigos
+    find $BACKUP_DIR -name "${DB_NAME}_*.sql.gz" -mtime +$RETENTION_DAYS -delete
+    echo "Backups mais antigos que $RETENTIONdias dias removidos."
+    
+    # Mostra espaço utilizado
+    echo "Espaço utilizado: $(du -sh $BACKUP_DIR)"
+else
+    echo "ERRO: Falha no backup do banco!"
+    exit 1
+fi</code>
+                </div>
+
+                <div class="danger-box">
+                    <h4>⚠️ ATENÇÃO</h4>
+                    <p>Nunca armazene senhas diretamente em scripts. Use variáveis de ambiente ou arquivos de configuração com permissões restritas (600).</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa automatizar backups de arquivos ou bancos de dados
+                </div>
+            </div>
+
+            <!-- Card Scripts Utilitários -->
+            <div id="utilities" class="card scripts">
+                <div class="card-header">
+                    <span class="badge scripts"></span>
+                    <div class="card-title">🛠️ Scripts Utilitários</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-title">Organizador de Downloads</div>
+                    <div class="script-description">Organiza arquivos da pasta Downloads por tipo</div>
+                    <code>#!/bin/bash
+# organize-downloads.sh - Organiza arquivos por tipo
+
+DOWNLOADS_DIR="$HOME/Downloads"
+CATEGORIES=("Imagens" "Documentos" "Vídeos" "Áudios" "Compactados" "Código")
+
+# Mapeamento de extensões para categorias
+declare -A EXTENSIONS=(
+    ["jpg"]="Imagens" ["jpeg"]="Imagens" ["png"]="Imagens" ["gif"]="Imagens"
+    ["pdf"]="Documentos" ["doc"]="Documentos" ["docx"]="Documentos" ["txt"]="Documentos"
+    ["mp4"]="Vídeos" ["avi"]="Vídeos" ["mkv"]="Vídeos" ["mov"]="Vídeos"
+    ["mp3"]="Áudios" ["wav"]="Áudios" ["flac"]="Áudios"
+    ["zip"]="Compactados" ["rar"]="Compactados" ["tar.gz"]="Compactados" ["7z"]="Compactados"
+    ["js"]="Código" ["py"]="Código" ["html"]="Código" ["css"]="Código" ["sh"]="Código"
+)
+
+cd $DOWNLOADS_DIR
+
+# Cria diretórios das categorias
+for category in "${CATEGORIES[@]}"; do
+    mkdir -p "$category"
+done
+
+# Organiza arquivos
+for file in *; do
+    if [ -f "$file" ]; then
+        extension="${file##*.}"
+        extension=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
+        
+        category="${EXTENSIONS[$extension]}"
+        
+        if [ -n "$category" ]; then
+            mv "$file" "$category/"
+            echo "Movido: $file -> $category/"
+        fi
+    fi
+done
+
+echo "Organização concluída!"
+echo ""
+echo "Resumo:"
+for category in "${CATEGORIES[@]}"; do
+    count=$(find "$category" -type f 2>/dev/null | wc -l)
+    echo "$category: $count arquivos"
+done</code>
+                </div>
+
+                <div class="script-block">
+                    <div class="script-title">Gerador de Senhas Seguras</div>
+                    <div class="script-description">Gera senhas aleatórias e seguras</div>
+                    <code>#!/bin/bash
+# password-generator.sh - Gerador de senhas seguras
+
+DEFAULT_LENGTH=16
+DEFAULT_COUNT=1
+
+# Parâmetros
+LENGTH=${1:-$DEFAULT_LENGTH}
+COUNT=${2:-$DEFAULT_COUNT}
+
+# Conjuntos de caracteres
+LOWERCASE="abcdefghijklmnopqrstuvwxyz"
+UPPERCASE="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+NUMBERS="0123456789"
+SPECIAL="!@#$%^&*()_+-=[]{}|;:,.<>?"
+
+# Conjunto completo
+ALL_CHARS="$LOWERCASE$UPPERCASE$NUMBERS$SPECIAL"
+
+generate_password() {
+    local length=$1
+    local password=""
+    
+    # Garante pelo menos um caractere de cada tipo
+    password+=$(echo $LOWERCASE | fold -w1 | shuf | head -n1)
+    password+=$(echo $UPPERCASE | fold -w1 | shuf | head -n1)
+    password+=$(echo $NUMBERS | fold -w1 | shuf | head -n1)
+    password+=$(echo $SPECIAL | fold -w1 | shuf | head -n1)
+    
+    # Preenche o resto
+    for ((i=4; i<length; i++)); do
+        password+=$(echo $ALL_CHARS | fold -w1 | shuf | head -n1)
+    done
+    
+    # Embaralha a senha
+    echo $password | fold -w1 | shuf | tr -d '\n'
+}
+
+echo "Gerador de Senhas Seguras"
+echo "====================="
+echo ""
+
+for ((i=1; i<=COUNT; i++)); do
+    password=$(generate_password $LENGTH)
+    echo "Senha $i: $password"
+    
+    # Verifica força da senha
+    if [ ${#password} -ge 12 ]; then
+        strength="Forte"
+        color="\033[32m"
+    elif [ ${#password} -ge 8 ]; then
+        strength="Média"
+        color="\033[33m"
+    else
+        strength="Fraca"
+        color="\033[31m"
+    fi
+    
+    echo -e "Força: ${color}${strength}\033[0m"
+    echo ""
+done</code>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa organizar arquivos ou gerar senhas seguras
+                </div>
+            </div>
+
+            <!-- Card Scripts Avançados -->
+            <div id="advanced" class="card scripts">
+                <div class="card-header">
+                    <span class="badge scripts"></span>
+                    <div class="card-title">🚀 Scripts Avançados</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-title">Analisador de Logs em Tempo Real</div>
+                    <div class="script-description">Monitora logs e extrai informações relevantes</div>
+                    <code>#!/bin/bash
+# log-analyzer.sh - Analisador de logs em tempo real
+
+LOG_FILE=${1:-"/var/log/nginx/access.log"}
+PATTERNS_FILE="patterns.conf"
+ALERT_THRESHOLD=10
+
+# Padrões para buscar
+declare -A PATTERNS=(
+    ["ERROR"]="error|Error|ERROR"
+    ["404"]=" 404 "
+    ["500"]=" 500 "
+    ["SUSPICIOUS"]="union|select|drop|insert|update|delete"
+)
+
+# Cria arquivo de padrões se não existir
+if [ ! -f "$PATTERNS_FILE" ]; then
+    for pattern in "${!PATTERNS[@]}"; do
+        echo "$pattern=${PATTERNS[$pattern]}" >> $PATTERNS_FILE
+    done
+fi
+
+# Carrega padrões
+declare -A COUNTS
+for pattern in "${!PATTERNS[@]}"; do
+    COUNTS[$pattern]=0
+done
+
+echo "Analisando log: $LOG_FILE"
+echo "Pressione Ctrl+C para parar"
+echo ""
+
+# Monitora o arquivo em tempo real
+tail -f $LOG_FILE | while read line; do
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    
+    for pattern in "${!PATTERNS[@]}"; do
+        if echo "$line" | grep -qE "${PATTERNS[$pattern]}"; then
+            COUNTS[$pattern]=$((${COUNTS[$pattern]} + 1))
+            
+            # Alerta se ultrapassar threshold
+            if [ ${COUNTS[$pattern]} -gt $ALERT_THRESHOLD ]; then
+                echo "🚨 ALERTA: Muitas ocorrências de $pattern!"
+                echo "Última linha: $line"
+                echo ""
+            fi
+            
+            echo "[$timestamp] $pattern: ${COUNTS[$pattern]} ocorrências"
+        fi
+    done
+done</code>
+                </div>
+
+                <div class="script-block">
+                    <div class="script-title">Deploy Automático com Rollback</div>
+                    <div class="script-description">Script de deploy com capacidade de rollback</div>
+                    <code>#!/bin/bash
+# deploy-with-rollback.sh - Deploy automático com rollback
+
+APP_DIR="/var/www/myapp"
+BACKUP_DIR="/backups/deploy"
+BRANCH=${1:-"main"}
+SERVICE_NAME="myapp"
+
+# Função de rollback
+rollback() {
+    echo "🔄 Iniciando rollback..."
+    
+    if [ -d "$BACKUP_DIR/current" ]; then
+        # Para o serviço
+        systemctl stop $SERVICE_NAME
+        
+        # Restaura backup
+        rm -rf $APP_DIR
+        cp -r $BACKUP_DIR/current $APP_DIR
+        
+        # Reinicia o serviço
+        systemctl start $SERVICE_NAME
+        
+        echo "✅ Rollback concluído com sucesso!"
+    else
+        echo "❌ Nenhum backup encontrado para rollback!"
+        exit 1
+    fi
+}
+
+# Verifica se é rollback
+if [ "$1" = "rollback" ]; then
+    rollback
+    exit 0
+fi
+
+# Cria backup do estado atual
+echo "💾 Criando backup do estado atual..."
+mkdir -p $BACKUP_DIR
+rm -rf $BACKUP_DIR/previous
+mv $BACKUP_DIR/current $BACKUP_DIR/previous 2>/dev/null
+cp -r $APP_DIR $BACKUP_DIR/current
+
+# Atualiza código
+echo "📥 Baixando atualizações da branch $BRANCH..."
+cd $APP_DIR
+git fetch origin
+git checkout $BRANCH
+git pull origin $BRANCH
+
+# Instala dependências
+echo "📦 Instalando dependências..."
+npm ci --production
+
+# Executa testes
+echo "🧪 Executando testes..."
+npm test
+
+if [ $? -ne 0 ]; then
+    echo "❌ Testes falharam! Iniciando rollback..."
+    rollback
+    exit 1
+fi
+
+# Build do projeto
+echo "🔨 Build do projeto..."
+npm run build
+
+if [ $? -ne 0 ]; then
+    echo "❌ Build falhou! Iniciando rollback..."
+    rollback
+    exit 1
+fi
+
+# Reinicia serviço
+echo "🔄 Reiniciando serviço..."
+systemctl restart $SERVICE_NAME
+
+# Verifica se o serviço está rodando
+sleep 5
+if systemctl is-active --quiet $SERVICE_NAME; then
+    echo "✅ Deploy concluído com sucesso!"
+    
+    # Limpa backup anterior
+    rm -rf $BACKUP_DIR/previous
+    
+    # Registra log
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Deploy bem-sucedido da branch $BRANCH" >> $BACKUP_DIR/deploy.log
+else
+    echo "❌ Serviço não iniciou! Iniciando rollback..."
+    rollback
+    exit 1
+fi</code>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 DICA</h4>
+                    <p>Para scripts de deploy em produção, sempre implemente verificação de saúde (health check) antes de considerar o deploy como concluído.</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>Use quando:</strong> Precisa de automação avançada com tratamento de erros e recuperação
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Profissional -->
+    <div class="professional-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>🐧 Bash Cheatsheet 2025</h3>
+                <p>Sua referência completa para dominar o terminal Linux. Do iniciante ao avançado, todos os comandos que você precisa em um único lugar.</p>
+                
+                <div class="social-links">
+                    <a href="https://blueprintblog.tech" class="social-link" title="Website">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/blueprintblog" class="social-link" title="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Genildocs" class="social-link" title="GitHub">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="cta-container">
+                    <h4>🚀 Quer mais conteúdos como este?</h4>
+                    <p>Visite o <strong>blueprintblog.tech</strong> para acessar tutoriais completos, guias práticos e recursos avançados de programação e desenvolvimento.</p>
+                    <a href="https://blueprintblog.tech" class="cta-button" target="_blank">Visitar Blueprint Blog</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Navegação Rápida</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">🐧 Bash Principal</a></li>
+                    <li><a href="git.html">🔀 Git Commands</a></li>
+                    <li><a href="docker.html">🐳 Docker Commands</a></li>
+                    <li><a href="scripts.html">📜 Bash Scripts</a></li>
+                    <li><a href="#basics" class="!hidden">📝 Scripts Básicos</a></li>
+                    <li><a href="#automation" class="!hidden">🤖 Scripts de Automação</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 <a href="https://blueprintblog.tech" target="_blank">Blueprint Blog</a>. Todos os direitos reservados. | Criado com ❤️ pela equipe do blueprintblog.</p>
+            <p style="margin-top: 10px; font-size: 12px;">Esta cheatsheet é um projeto open source. Contribua no <a href="https://github.com/blueprintblog/bash-cheatsheet" target="_blank">GitHub</a>! | Versão v1.5.0</p>
+        </div>
+    </div>
+
+    <!-- Estilos do Footer Profissional -->
+    <style>
+        /* Estilos do Footer Profissional */
+        .professional-footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .cta-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        .cta-container h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .cta-container p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .footer-bottom a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-brand h3 {
+                font-size: 24px;
+            }
+            
+            .professional-footer {
+                padding: 40px 0 20px;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            // Destaca a seção atual no menu usando Intersection Observer
+            const sections = document.querySelectorAll('div[id], h2[id]');
+            const observerOptions = {
+                rootMargin: '-80px 0px -60% 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentId = entry.target.getAttribute('id');
+                        const navLinks = document.querySelectorAll('.nav-menu a');
+                        
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + currentId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+        
+        // Scroll suave para os links internos
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Se for link externo (contém .html), não previne o comportamento padrão
+                    if (this.getAttribute('href').includes('.html')) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 80; // Compensar altura do menu
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
